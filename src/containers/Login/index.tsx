@@ -32,8 +32,9 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
 
   return (
     <Modal
-      title="Log In"
+      title="Masuk"
       isOpen={isOpen}
+      size='small'
       onClose={() => setIsOpen(false)}
     >
       <Formik
@@ -47,22 +48,22 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
         {() => (
           <Form className='flex flex-col gap-3'>
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold">
+              <label className="text-sm">
                 Email
               </label>
               <Field
                 type="email"
                 name="email"
                 placeholder="Masukan email"
-                className="w-full bg-white rounded border border-gray-300 text-base focus:outline-none outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
+                className="w-full text-sm bg-white rounded border border-gray-300 focus:outline-none outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"
               />
             </div>
 
             <div className="flex flex-col gap-1">
-              <label className="text-sm font-semibold">
+              <label className="text-sm">
                 Password
               </label>
-              <div className='w-full flex items-center gap-2 bg-white rounded border border-gray-300 text-base focus:outline-none outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'>
+              <div className='w-full text-sm flex items-center gap-2 bg-white rounded border border-gray-300 focus:outline-none outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'>
                 <Field
                   type={showPassword ? "text" : "password"}
                   name="password"
@@ -73,7 +74,7 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
                   className='text-2xl cursor-pointer opacity-60'
                   onClick={() => setShowPassword(!showPassword)}
                 >
-                  {showPassword ? <AiFillEye /> : <AiFillEyeInvisible />}
+                  {showPassword ? <AiFillEye className='text-md' /> : <AiFillEyeInvisible className='text-md' />}
                 </span>
               </div>
             </div>

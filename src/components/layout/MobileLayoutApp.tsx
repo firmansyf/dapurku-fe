@@ -4,7 +4,6 @@ interface MobileAppLayoutProps {
   children: React.ReactNode
 }
 
-
 export default function MobileAppLayout(props: MobileAppLayoutProps) {
   const { children } = props
 

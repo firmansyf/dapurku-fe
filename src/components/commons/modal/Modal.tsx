@@ -6,16 +6,24 @@ interface ModalProps {
   title?: string;
   children: React.ReactNode;
   footer?: React.ReactNode;
+  size?: 'small' | 'medium' | 'large'; 
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer, size = 'medium' }) => {
   const [showModal, setShowModal] = useState(false);
+
+  // Konfigurasi ukuran modal
+  const sizeClasses = {
+    small: 'max-w-sm',
+    medium: 'max-w-lg',
+    large: 'max-w-2xl',
+  };
 
   useEffect(() => {
     if (isOpen) {
       setShowModal(true);
     } else {
-      const timer = setTimeout(() => setShowModal(false), 300); // Durasi sesuai dengan animasi
+      const timer = setTimeout(() => setShowModal(false), 300); 
       return () => clearTimeout(timer);
     }
   }, [isOpen]);
@@ -24,12 +32,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer 
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50 transition-opacity duration-300 ${
+      className={`fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-20 transition-opacity duration-300 ${
         isOpen ? 'opacity-100' : 'opacity-0'
       }`}
     >
       <div
-        className={`bg-white w-full max-w-lg mx-4 md:mx-0 rounded-lg shadow-lg overflow-hidden transform transition-transform duration-300 ${
+        className={`bg-white w-full ${sizeClasses[size]} mx-4 md:mx-0 rounded-lg shadow-sm overflow-hidden transform transition-transform duration-300 ${
           isOpen ? 'scale-100' : 'scale-95'
         }`}
       >
@@ -37,7 +45,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer 
         <div className="flex justify-between items-center p-4 border-b">
           {title && <h2 className="text-lg font-bold">{title}</h2>}
           <button
-            className="text-gray-400 hover:text-gray-600 text-2xl bg-slate-200 w-8 rounded-full"
+            className="text-gray-400 hover:text-gray-600 text-2xl hover:bg-slate-200 w-8 hover:rounded-full"
             onClick={onClose}
             aria-label="Close modal"
           >
