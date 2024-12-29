@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { LoginParams } from './types'
-import { login, logout } from './api'
+import { login, loginAdmin, logout } from './api'
 
 export const useLoginMutation = () => {
     return useMutation({
@@ -13,5 +13,12 @@ export const useLogoutMutation = () => {
   return useMutation({
     mutationKey: ['logout'],
     mutationFn: () => logout(),
+  })
+}
+
+export const useLoginAdminMutation = () => {
+  return useMutation({
+    mutationKey: ['login-admin'],
+    mutationFn: (params: LoginParams) => loginAdmin(params),
   })
 }

@@ -17,3 +17,11 @@ export function logout() {
     throwErrorObject: true,
   })
 }
+
+
+// Login Admin
+export function loginAdmin(param: LoginParams) {
+  return apiResolver(() => axios.post('/auth/login-admin', param), {
+    throwErrorObject: true,
+  })
+}

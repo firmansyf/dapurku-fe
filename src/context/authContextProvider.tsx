@@ -2,6 +2,7 @@
 
 import React, { createContext, useReducer, useContext, ReactNode, Dispatch } from 'react'
 import { initialState, stateReducer, State, Action } from '@/stores'
+import { deleteCookie } from 'cookies-next'
 interface StateContextProps {
     state: State
     dispatch: Dispatch<Action>
@@ -31,6 +32,7 @@ export const StateProvider: React.FC<StateProviderProps> = ({ children }) => {
   
     const clearLogout = () => {
       localStorage.clear()
+      deleteCookie('token')
       dispatch({type: 'LOGOUT'})
     }
   
