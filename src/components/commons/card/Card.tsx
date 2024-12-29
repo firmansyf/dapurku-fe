@@ -6,11 +6,12 @@ interface CardProps {
   children?: React.ReactNode; 
   imageUrl?: string;
   actions?: React.ReactNode; // Bisa berupa tombol atau elemen lainnya
+  className?: string;
 }
 
-const Card: React.FC<CardProps> = ({ title, description, imageUrl, actions, children }) => {
+const Card: React.FC<CardProps> = ({ title, description, imageUrl, actions, children, className = 'max-w-sm' }) => {
   return (
-    <div className="max-w-sm bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+    <div className={` ${className} bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden`}>
       {imageUrl && (
         // eslint-disable-next-line @next/next/no-img-element
         <img

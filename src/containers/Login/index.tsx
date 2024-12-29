@@ -11,7 +11,7 @@ import { useGlobalState } from '@/context/authContextProvider';
 import toast from 'react-hot-toast';
 
 const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
-  const [showPassword, setShowPassword] = useState(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false);
   const { afterSuccessLogin } = useGlobalState()
   const loginEndpoint = useLoginMutation()
 

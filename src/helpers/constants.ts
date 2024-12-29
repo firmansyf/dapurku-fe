@@ -1,5 +1,7 @@
 export const PATHS = {
     home: '/',
     register: '/register',
-    admin: '/admin-dashboard'
+    admin: '/admin',
+    userManagement: '/admin/user-management',
+    productManagement: '/admin/product-management'
 }

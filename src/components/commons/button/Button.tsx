@@ -31,7 +31,7 @@ const Button: React.FC<ButtonProps> = ({
 
   const variantStyles = {
     primary:
-      'bg-blue-600 text-white hover:bg-blue-700 focus:ring-blue-500',
+      'bg-[#003A77] text-white',
     secondary:
       'bg-gray-200 text-gray-800 hover:bg-gray-300 focus:ring-gray-400',
     danger:
@@ -39,7 +39,7 @@ const Button: React.FC<ButtonProps> = ({
     outline: 
       'border border-green-500 hover:bg-gray-200 focus:ring-green-400',
     success:
-      'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500'
+      'bg-green-600 text-white hover:bg-green-700 focus:ring-green-500',
   };
 
   const disabledStyles = 'opacity-50 cursor-not-allowed';
