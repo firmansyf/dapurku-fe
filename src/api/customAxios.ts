@@ -6,7 +6,6 @@ import axios, {
 } from 'axios'
 import { ErrorResponseData } from './apiAxiosInterface'
 import { APIResponse } from '@/types/commonTypes'
-import  Router  from 'next/router'
 
 type ConfigOptions = {
     isAuth?: boolean
@@ -38,12 +37,15 @@ async function requestHandler(
 }
 
 const errorHandler = (error: AxiosError) => {
-    const pathname = Router.pathname
-    const externalUrl =
-      '/' + Router?.asPath?.split('/')[1] + '/' + Router?.asPath?.split('/')[2]
+  const currentPath = typeof window !== 'undefined' ? window.location.pathname : '';
+  const externalUrl =
+    typeof window !== 'undefined'
+      ? '/' + window.location.pathname.split('/')[1] + '/' + window.location.pathname.split('/')[2]
+      : '';
+  
     if (
-      pathname !== '/' &&
-      pathname !== '/choose-store' &&
+      currentPath !== '/' &&
+      currentPath !== '/choose-store' &&
       externalUrl !== '/invoice/external' &&
       error.response?.status === 401
     ) {

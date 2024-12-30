@@ -1,4 +1,4 @@
-export type DataProducts = {
+export interface DataProducts {
     name: string
     description: string
     price: number
