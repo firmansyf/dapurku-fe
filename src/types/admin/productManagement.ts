@@ -4,4 +4,5 @@ export interface DataProducts {
     price: number
     createdAt: string
     updatedAt: string
+    image?: string
 }

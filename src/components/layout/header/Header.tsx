@@ -19,11 +19,11 @@ const Header: React.FC = () => {
   return (
     <>
       <header className="fixed top-0 left-0 w-full bg-gray-100 shadow z-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center h-16">
-          <div className={`text-lg text-green-700 font-bold ${pacifico.className}`}>
-              Dapurku!
-          </div>
+        <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="flex px-14 justify-between items-center h-16">
+            <div className={`text-lg text-green-700 font-bold ${pacifico.className}`}>
+                Dapurku!
+            </div>
 
             {/* Navigation */}
             {/* <nav className="hidden md:flex space-x-6">
