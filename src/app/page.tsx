@@ -9,9 +9,7 @@ export default function Home() {
 
   const params = {page}
   const { data: product } = useQueriesGetProducts(params)
-  
-  console.log('product :', product?.data)
-  
+    
   return (
     <div className="p-20">
       <section className="my-5">

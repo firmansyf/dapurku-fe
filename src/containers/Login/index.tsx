@@ -1,34 +1,39 @@
 'use client';
 
-import { Modal, Button } from '@/components/commons';
-import { FC, useState } from 'react';
-import { LoginProps } from '@/types/containers/login';
-import { Formik, Form, Field } from 'formik';
-import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai";
-import Image from 'next/image';
-import { useLoginMutation } from '@/api/auth';
-import { useGlobalState } from '@/context/authContextProvider';
-import toast from 'react-hot-toast';
+import { Modal, Button } from '@/components/commons'
+import { FC, useState, useCallback } from 'react'
+import { LoginProps } from '@/types/containers/login'
+import { Formik, Form, Field } from 'formik'
+import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
+import Image from 'next/image'
+import { useLoginMutation } from '@/api/auth'
+import { useGlobalState } from '@/context/authContextProvider'
+import { useQueriesGetProfile } from '@/api/auth'
+import toast from 'react-hot-toast'
 
 const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
-  const [showPassword, setShowPassword] = useState<boolean>(false);
+  const [showPassword, setShowPassword] = useState<boolean>(false)
+  const { data: profile } = useQueriesGetProfile()?.data ?? []
+
   const { afterSuccessLogin } = useGlobalState()
   const loginEndpoint = useLoginMutation()
 
-  const onSubmit = async (values: { email: string; password: string }) => {
+  
+  const onSubmit = useCallback(async (values: { email: string; password: string }) => {
     const params = {
       email: values?.email,
       password: values?.password
+    };
+  
+    try {
+      const res = await loginEndpoint.mutateAsync(params);
+      afterSuccessLogin(res.token, res.user, profile);
+      toast.success(res.message)
+      setIsOpen(false);
+    } catch (error) {
+      toast.error('Login gagal, silakan coba lagi.', error);
     }
-
-    await loginEndpoint
-      .mutateAsync(params).then((res) => {
-        afterSuccessLogin(res.token, res.user)
-        toast.success(res.message)
-        setIsOpen(false)
-      })
-
-  };
+  }, [afterSuccessLogin, loginEndpoint, profile, setIsOpen])
 
   return (
     <Modal
