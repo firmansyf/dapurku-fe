@@ -1,9 +1,3 @@
-export interface DataUsers {
-    name: string
-    age: number
-    city: string
-}
-
 export type User = {
     image: {
         type: string

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/components/commons'
 import React, { useState } from 'react'
 import { Pacifico } from 'next/font/google'
@@ -14,7 +15,9 @@ const pacifico = Pacifico({
 const Header: React.FC = () => {
   const [openLogin, setOpenLogin] = useState<boolean>(false)
   const [openLogout, setOpenLogout] = useState<boolean>(false)
-  const { state } = useGlobalState() 
+  const { state } = useGlobalState()
+  
+  console.log('state :', state)
 
   return (
     <>
@@ -32,15 +35,16 @@ const Header: React.FC = () => {
                   key={index}
                   href={link.href}
                   className="text-gray-600 hover:text-gray-900 transition"
-                >
+                >  
                   {link.label}
                 </a>
               ))}
             </nav> */}
 
-            {state.isAuthenticated && (
+            {state.isAuthenticated && state.data !== null && (
               <div className='flex items-center gap-2'>  
-                <Button text='Keluar' size='sm' variant='success' className='tracking-wide' onClick={() => setOpenLogout(true)}/>            
+                <span className=''>{state.data?.username}</span>
+                <span className='tracking-wide' onClick={() => setOpenLogout(true)}> Keluar </span>            
               </div>
             )}
 
