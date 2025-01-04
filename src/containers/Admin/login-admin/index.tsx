@@ -23,6 +23,7 @@ const LoginAdminPage: FC = () => {
     await login
       .mutateAsync(params).then((res) => {
         toast.success(res.message)
+        localStorage.setItem('token', res.token)
         setCookie('token', res?.token)
         router.push('/admin/user-management')
       })

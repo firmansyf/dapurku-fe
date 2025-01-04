@@ -1,15 +1,13 @@
 'use client'
 
 import { useQueriesGetProducts } from "@/api/user/product"
-// import { useQueriesGetProfile } from '@/api/auth'
 import Products from "@/containers/Product"
 import { useState } from "react"
 
 export default function Home() {
   const [page,] = useState<number>(1)
-  const params = { page }
+  const params = { page, limit: 12 }
   
-  // const { data: profile } = useQueriesGetProfile()?.data ?? []
   const { data: product } = useQueriesGetProducts(params) ?? []
     
   return (
