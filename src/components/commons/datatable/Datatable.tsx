@@ -79,8 +79,8 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
                     .filter(([key]) => key !== 'id' && key !== 'image')
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     .map(([_, value], i) => (
-                      <td key={i} className="py-2 px-4 text-sm text-gray-600">
-                        {value}
+                      <td key={i} className="py-2 px-4 text-sm text-gray-600 ">
+                        <p className='truncate w-[200px]'>{value}</p>
                       </td>
                     ))}
                   <td className="py-2 px-4 text-sm text-gray-600">

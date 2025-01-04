@@ -31,8 +31,8 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
         afterSuccessLogin(res.token, res.user)
       }, 300)
     } catch (err) {
-      const message =  `Login gagal, silakan coba lagi. ${(err as Error)?.message}`
-      throw new Error(message)
+        const { data } = err as { data: { error: string } }
+        toast.error(data.error)
     }
    
   }, [afterSuccessLogin, loginEndpoint, setIsOpen])
@@ -55,7 +55,7 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
         {() => (
           <Form className='flex flex-col gap-3'>
             <div className="flex flex-col gap-1">
-              <label className="text-sm">
+              <label className="text-sm tracking-wide">
                 Email
               </label>
               <Field
@@ -67,7 +67,7 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
             </div>
 
             <div className="flex flex-col gap-1">
-              <label className="text-sm">
+              <label className="text-sm tracking-wide">
                 Password
               </label>
               <div className='w-full text-sm flex items-center gap-2 bg-white rounded border border-gray-300 focus:outline-none outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'>
@@ -86,14 +86,17 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
               </div>
             </div>
 
-            <span className='w-full text-center text-sm opacity-50 my-2'>Atau</span>
+            <div className="my-5 text-center w-full relative">
+              <hr className="w-full absolute top-1/2 h-[2px] bg-[#DEDEDE] -z-10 border-none" />
+              <span className="text-[#AEADAD] z-40 p-2 bg-[#FFF]">atau</span>
+            </div>
             
             {/* Google Login */}
             <div
-              className='flex items-center border-2 py-2 justify-center rounded-md cursor-pointer bg-gray-100 tracking-wide'
+              className='flex items-center gap-2 border-2 py-2 justify-center rounded-md cursor-pointer bg-gray-100 tracking-wide'
             >
-              <Image src='/logo/google.png' width={25} height={25} alt='google-logo' />
-              <span className='text-sm'>Log in with Google</span>
+              <Image src='/logo/google.png' width={24} height={24} alt='google-logo' />
+              <span className='text-sm opacity-70'>Log in with Google</span>
             </div>
             
             <div className='w-full mt-4'>

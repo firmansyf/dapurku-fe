@@ -6,11 +6,9 @@ import { FC, useState } from 'react'
 import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
 import { useLoginAdminMutation } from '@/api/auth'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
 import { setCookie } from 'cookies-next'
 
 const LoginAdminPage: FC = () => {
-  const router = useRouter()
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const login = useLoginAdminMutation()
 
@@ -25,14 +23,14 @@ const LoginAdminPage: FC = () => {
         toast.success(res.message)
         localStorage.setItem('token', res.token)
         setCookie('token', res?.token)
-        router.push('/admin/user-management')
+        window.location.href = 'admin/user-management'
       })
 
   };
 
     return (
         <div className='min-h-screen flex items-center justify-center'>
-            <Card title='Login Admin' description='' className='w-1/4'>
+            <Card title='Log in Admin' description='' className='w-1/4 tracking-wide'>
                 <Formik
                   enableReinitialize
                   initialValues={{
@@ -44,7 +42,7 @@ const LoginAdminPage: FC = () => {
                 {() => (
                 <Form className='flex flex-col gap-3'>
                   <div className="flex flex-col gap-1">
-                  <label className="text-sm">
+                  <label className="text-sm tracking-wide">
                      Email
                   </label>
                   <Field
@@ -56,7 +54,7 @@ const LoginAdminPage: FC = () => {
                  </div>
 
                  <div className="flex flex-col gap-1">
-                  <label className="text-sm">
+                  <label className="text-sm tracking-wide">
                      Password
                   </label>
                  <div className='w-full text-sm flex items-center gap-2 bg-white rounded border border-gray-300 focus:outline-none outline-none text-gray-700 py-1 px-3 leading-8 transition-colors duration-200 ease-in-out'>
