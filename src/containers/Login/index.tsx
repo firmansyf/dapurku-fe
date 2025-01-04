@@ -8,13 +8,12 @@ import { AiFillEyeInvisible, AiFillEye } from "react-icons/ai"
 import Image from 'next/image'
 import { useLoginMutation } from '@/api/auth'
 import { useGlobalState } from '@/context/authContextProvider'
-import { useQueriesGetProfile } from '@/api/auth'
 import toast from 'react-hot-toast'
+import { useRouter } from 'next/navigation'
 
 const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
+  const router = useRouter()
   const [showPassword, setShowPassword] = useState<boolean>(false)
-  const { data: profile } = useQueriesGetProfile()?.data ?? []
-
   const { afterSuccessLogin } = useGlobalState()
   const loginEndpoint = useLoginMutation()
 
@@ -23,17 +22,22 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
     const params = {
       email: values?.email,
       password: values?.password
-    };
-  
-    try {
-      const res = await loginEndpoint.mutateAsync(params);
-      afterSuccessLogin(res.token, res.user, profile);
-      toast.success(res.message)
-      setIsOpen(false);
-    } catch (error) {
-      toast.error('Login gagal, silakan coba lagi.', error);
     }
-  }, [afterSuccessLogin, loginEndpoint, profile, setIsOpen])
+
+    try {
+      const res = await loginEndpoint.mutateAsync(params)
+      setIsOpen(false)
+      setTimeout(() => {
+        window.location.reload()
+        toast.success(res.message)
+        afterSuccessLogin(res.token, res.user)
+      }, 300)
+    } catch (err) {
+      const message =  `Login gagal, silakan coba lagi. ${(err as Error)?.message}`
+      throw new Error(message)
+    }
+   
+  }, [afterSuccessLogin, loginEndpoint, setIsOpen])
 
   return (
     <Modal

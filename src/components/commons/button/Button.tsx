@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({
     sm: 'px-3 py-2 text-sm',
     md: 'px-6 py-3 text-base',
     lg: 'px-8 py-4 text-lg',
-    xs: 'px-2 py-1 text-xs'
+    xs: 'px-2 py-2 text-xs'
   };
 
   const variantStyles = {
