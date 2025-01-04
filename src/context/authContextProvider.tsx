@@ -24,15 +24,15 @@ interface StateProviderProps {
 const loadStateFromLocalStorage = (): State => {
   try {
     const storedState = localStorage.getItem('appState');
-    const storedProfile = localStorage.getItem('profileInfo');
+    const storedProfile = localStorage.getItem('profileInfo')
     return {
       ...initialState,
       ...(storedState ? JSON.parse(storedState) : {}),
       profileInfo: storedProfile ? JSON.parse(storedProfile) : undefined,
     };
   } catch (error) {
-    console.error('Error loading state from localStorage', error);
-    return initialState;
+    console.error('Error loading state from localStorage', error)
+    return initialState
   }
 }
 

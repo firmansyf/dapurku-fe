@@ -9,10 +9,8 @@ import Image from 'next/image'
 import { useLoginMutation } from '@/api/auth'
 import { useGlobalState } from '@/context/authContextProvider'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/navigation'
 
 const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
-  const router = useRouter()
   const [showPassword, setShowPassword] = useState<boolean>(false)
   const { afterSuccessLogin } = useGlobalState()
   const loginEndpoint = useLoginMutation()

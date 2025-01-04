@@ -1,9 +1,14 @@
 import apiResolver from "../apiResolver"
 import getCustomAxios from "../customAxios"
+import getCustomAxiosAdmin from "../customAxiosAdmin"
 import { LoginParams } from "./types"
 
 const axios = getCustomAxios({
     baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/`
+})
+
+const axiosAdmin = getCustomAxiosAdmin({
+  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/`
 })
 
 const axiosWithAuth = getCustomAxios({
@@ -28,7 +33,7 @@ export function logout() {
 
 // Login Admin
 export function loginAdmin(param: LoginParams) {
-  return apiResolver(() => axios.post('/login-admin', param), {
+  return apiResolver(() => axiosAdmin.post('/login-admin', param), {
     throwErrorObject: true,
   })
 }
