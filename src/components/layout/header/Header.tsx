@@ -1,17 +1,10 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/components/commons'
 import React, { useState } from 'react'
-import { Pacifico } from 'next/font/google'
 import { Login } from '@/containers/Login'
 import { useGlobalState } from '@/context/authContextProvider'
 import { FiLogOut } from 'react-icons/fi'
 import Logout from '@/containers/Logout'
-
-const pacifico = Pacifico({
-    subsets: ['latin'],
-    display: 'swap',
-    weight: '400'
-  })
 
 const Header: React.FC = () => {
   const [openLogin, setOpenLogin] = useState<boolean>(false)
@@ -23,7 +16,7 @@ const Header: React.FC = () => {
       <header className="fixed top-0 left-0 w-full bg-[#81C784] shadow z-50">
         <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex px-14 justify-between items-center h-14">
-            <div className={`text-lg text-[#000] font-bold ${pacifico.className}`}>
+            <div className={`text-lg text-green-900 font-bold tracking-wide italic`}>
                 Dapurku!
             </div>
 
@@ -56,7 +49,7 @@ const Header: React.FC = () => {
 
             {!state.isAuthenticated && (
               <div className='flex items-center gap-2'>
-                <Button text='Masuk' size='xs' variant='outline' onClick={() => setOpenLogin(true)}/>  
+                <Button text='Masuk' size='xs' variant='secondary' className='tracking-wide' onClick={() => setOpenLogin(true)}/>  
                 <Button text='Daftar' size='xs' variant='success' className='tracking-wide'/>            
               </div>
             )}  
