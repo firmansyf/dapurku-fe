@@ -32,13 +32,14 @@ export const stateReducer = (state: State, action: Action) => {
         return {
           ...state,
           user: null,
+          data: null,
           isAuthenticated: false,
         }
       case 'INFO_PROFILE':
         return {
           ...state,
           data : action.payload,
-          isAuthenticated: true,
+          isAuthenticated: state.isAuthenticated || true,
         }
       case 'ISMOBILE':
         return {

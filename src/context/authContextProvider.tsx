@@ -1,9 +1,10 @@
 'use client'
 
-import React, { createContext, useReducer, useContext, ReactNode, Dispatch } from 'react'
+import { createContext, useReducer, useContext, ReactNode, Dispatch, useEffect } from 'react'
 import { initialState, stateReducer, State, Action } from '@/stores'
 import { deleteCookie } from 'cookies-next'
-import { User } from '@/types/admin/userManagement'
+// import { User } from '@/types/admin/userManagement'
+import { getProfile } from '@/api/auth'
 
 interface StateContextProps {
     state: State
@@ -11,7 +12,6 @@ interface StateContextProps {
     afterSuccessLogin: (
       token: string,
       user: { id: number, email: string },
-      data: User
     ) => void
     clearLogout: () => void
 }
@@ -24,13 +24,16 @@ interface StateProviderProps {
 const loadStateFromLocalStorage = (): State => {
   try {
     const storedState = localStorage.getItem('appState');
-    if (storedState) {
-      return JSON.parse(storedState);
-    }
+    const storedProfile = localStorage.getItem('profileInfo');
+    return {
+      ...initialState,
+      ...(storedState ? JSON.parse(storedState) : {}),
+      profileInfo: storedProfile ? JSON.parse(storedProfile) : undefined,
+    };
   } catch (error) {
     console.error('Error loading state from localStorage', error);
+    return initialState;
   }
-  return initialState
 }
 
 const saveStateToLocalStorage = (state: State) => {
@@ -44,25 +47,33 @@ const saveStateToLocalStorage = (state: State) => {
 export const StateProvider: React.FC<StateProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(stateReducer, loadStateFromLocalStorage())
   
-  React.useEffect(() => {
+  useEffect(() => {
     saveStateToLocalStorage(state);
   }, [state])
-  
-  const afterSuccessLogin = (
+
+  const afterSuccessLogin = async (
     token: string,
     user: { id: number, email: string }, 
-    data: User
   ) => {
-    localStorage.setItem('token', token)
-    dispatch({ type: 'LOGIN', payload: user, })
-    dispatch({ type: 'INFO_PROFILE', payload: data })
+    try {
+      localStorage.setItem('token', token);
+      dispatch({ type: 'LOGIN', payload: user });
+
+      const res = await getProfile();
+      if (res.data) {
+        localStorage.setItem('profileInfo', JSON.stringify(res.data));
+        dispatch({ type: 'INFO_PROFILE', payload: res.data });
+      }
+    } catch (error) {
+      console.error('Error fetching profile info:', error);
+    }
   }
 
   const clearLogout = () => {
-    localStorage.clear()
-    deleteCookie('token')
-    dispatch({ type: 'LOGOUT' })
-    window.location.reload()
+    localStorage.clear();
+    deleteCookie('token');
+    dispatch({ type: 'LOGOUT' });
+    window.location.reload();
   }
   
     return (
@@ -73,7 +84,7 @@ export const StateProvider: React.FC<StateProviderProps> = ({ children }) => {
 }
 
 export const useGlobalState = (): StateContextProps => {
-    const context = useContext(StateContext)
+    const context = useContext(StateContext);
     
     if (context === undefined) {
       throw new Error('useGlobalState must be used within a StateProvider');
