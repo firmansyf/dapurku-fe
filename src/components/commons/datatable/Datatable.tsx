@@ -1,5 +1,6 @@
-'use client';
-import { Dispatch, SetStateAction, useState } from 'react';
+'use client'
+import { Dispatch, SetStateAction, useState } from 'react'
+import { Button } from '@/components/commons'
 
 interface DatatableProps<T> {
   data: T[]
@@ -12,6 +13,7 @@ interface DatatableProps<T> {
   onDelete?: (item: T) => void
   onDetail?: (item: T) => void
   onSearch?: (query: string) => void
+  onAdd?: () => void
 }
 
 const Datatable = <T extends Record<string, string | number | boolean>>({
@@ -24,6 +26,7 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
   onDetail,
   onSearch,
   totalPages,
+  onAdd,
 }: DatatableProps<T>) => {
   const [searchQuery, setSearchQuery] = useState('')
   
@@ -52,6 +55,8 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
           placeholder="Search..."
           className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
         />
+
+        <Button text='Tambah +' size='sm' className='text-sm' onClick={onAdd} />
       </div>
 
       {data?.length > 0 ? (
@@ -59,6 +64,7 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
           <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr className="border-b bg-gray-100">
+              <th className="py-2 px-4 text-left text-sm font-semibold text-gray-700">No</th>
                 {/* Filter kolom untuk menghilangkan ID dan gambar */}
                 {Object.keys(data[0] || {})
                   .filter((key) => key !== 'id' && key !== 'image')
@@ -74,6 +80,9 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
             <tbody>
               {data?.map((row, idx) => (
                 <tr key={idx} className="border-b">
+                   <td className="py-2 px-4 text-sm text-gray-600 ">
+                      <p className='truncate w-[10px]'>{idx + 1}</p>
+                    </td>
                   {/* Filter nilai untuk menghilangkan ID dan gambar */}
                   {Object.entries(row)
                     .filter(([key]) => key !== 'id' && key !== 'image')

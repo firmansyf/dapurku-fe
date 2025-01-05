@@ -24,7 +24,7 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, actions, chil
         <h5 className="text-xl font-bold tracking-tight text-gray-900">
           {title}
         </h5>
-        <p className="mt-2 text-gray-700">{description}</p>
+        <p className="mt-2 text-gray-700 truncate">{description}</p>
 
         {children && <div className="mt-4">{children}</div>}
 
