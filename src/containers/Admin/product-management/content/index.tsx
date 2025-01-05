@@ -2,14 +2,15 @@
 'use client'
 
 import moment from 'moment';
-import { useQueriesGetProducts } from '@/api/admin/product';
+import { useQueriesGetProducts } from '@/api/admin/product'
 import { Datatable } from '@/components/commons'
 import { useDebounce } from 'use-debounce'
 import { FC, useState } from 'react'
 import { currencyFormat } from '@/helpers/commons'
 import { DataProducts } from '@/types/admin/productManagement'
-import { DeleteProduct } from './Delete';
-import { DetailProduct } from './Detail';
+import { DeleteProduct } from './Delete'
+import { DetailProduct } from './Detail'
+import AddEditForm from './AddEdit'
 
 const Content: FC = () => {
   const [page, setPage] = useState<number>(1)
@@ -19,6 +20,7 @@ const Content: FC = () => {
   const [debouncedSearch] = useDebounce(searchQuery, 700)
   const [openModalDelete, setOpenModalDelete] = useState<boolean>(false)
   const [openModalDetail, setOpenModalDetail] = useState<boolean>(false)
+  const [openModalAdd, setOpenModalAdd] = useState<boolean>(false)
 
   const params = { page, keyword: debouncedSearch}
   const { data: products } = useQueriesGetProducts(reloadData, params) ?? [];
@@ -51,9 +53,13 @@ const Content: FC = () => {
     setOpenModalDetail(true)
   }
 
+  const onAdd = () => {
+    setOpenModalAdd(true)
+  }
+
   return (
       <>
-        <div className="container mx-auto p-6">
+      <div className="container mx-auto p-6">
             <Datatable 
               page={page} 
               total={total}
@@ -64,8 +70,14 @@ const Content: FC = () => {
               totalPages={totalPages}
               onDelete={onDelete}
               onDetail={onDetail}
+              onAdd={onAdd}
             />
         </div>
+      
+        <AddEditForm
+          openModal={openModalAdd}
+          setOpenModal={setOpenModalAdd}
+        />
       
         <DeleteProduct
           data={detail as DataProducts}
@@ -78,7 +90,9 @@ const Content: FC = () => {
         <DetailProduct 
           data={detail as DataProducts} 
           openModal={openModalDetail} 
-          setOpenModal={setOpenModalDetail} />
+          setOpenModal={setOpenModalDetail}
+        />
+      
       </>
     )
 }

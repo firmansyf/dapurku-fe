@@ -25,3 +25,10 @@ export interface DetailProductProps {
     data: DataProducts
     setOpenModal: Dispatch<SetStateAction<boolean>>
 }
+
+export interface AddEditProductProps {
+    openModal: boolean
+    reload?: number
+    setReload?: Dispatch<SetStateAction<number>>
+    setOpenModal: Dispatch<SetStateAction<boolean>>
+}

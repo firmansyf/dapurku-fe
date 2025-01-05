@@ -39,7 +39,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer,
       }`}
     >
       <div
-        className={`bg-white w-full ${sizeClasses[size]} mx-4 md:mx-0 rounded-lg shadow-sm overflow-hidden transform transition-transform duration-300 ${
+        className={`bg-white w-full ${sizeClasses[size]} mx-4 md:mx-0 rounded-lg overflow-auto shadow-sm transform transition-transform duration-300 ${
           isOpen ? 'scale-100' : 'scale-95'
         }`}
       >
