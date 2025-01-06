@@ -6,7 +6,7 @@ export interface DataProducts {
     id?: number
     name: string
     description: string
-    price: number
+    price: string
     createdAt: string
     updatedAt: string
     image?: string
