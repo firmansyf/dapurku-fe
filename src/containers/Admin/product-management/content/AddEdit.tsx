@@ -1,10 +1,10 @@
 /* eslint-disable @next/next/no-img-element */
 import { Button, Modal } from '@/components/commons';
 import { Formik, Form, Field } from 'formik';
-import { FC, useState } from 'react'
-import { AddEditProductProps } from '@/types/admin/productManagement'
+import { FC, useState, useEffect } from 'react';
+import { AddEditProductProps } from '@/types/admin/productManagement';
 import { useDropzone, Accept } from 'react-dropzone';
-import { useAddProductMutation, useEditProductMutation, ProductPayload } from '@/api/admin/product'
+import { useAddProductMutation, useEditProductMutation, ProductPayload } from '@/api/admin/product';
 import toast from 'react-hot-toast';
 
 interface UploadedImage {
@@ -15,13 +15,21 @@ interface UploadedImage {
 interface ProductFormValues {
     name: string;
     description: string;
-    price: number;
+    price: string;
 }
 
 const AddEditForm: FC<AddEditProductProps> = ({ openModal, setOpenModal, data, reload, setReload }) => {
     const [uploadedImage, setUploadedImage] = useState<UploadedImage | null>(null);
-    const postProduct = useAddProductMutation(reload)
-    const putProduct = useEditProductMutation(reload)
+    const [existingImage, setExistingImage] = useState<string | null>(null);
+
+    const postProduct = useAddProductMutation(reload);
+    const putProduct = useEditProductMutation(reload);
+
+    useEffect(() => {
+        if (data?.image) {
+            setExistingImage(data.image);
+        }
+    }, [data]);
 
     const onDrop = (acceptedFiles: File[]) => {
         if (acceptedFiles.length > 0) {
@@ -30,6 +38,7 @@ const AddEditForm: FC<AddEditProductProps> = ({ openModal, setOpenModal, data, r
                 preview: URL.createObjectURL(file),
                 file,
             });
+            setExistingImage(null)
         }
     };
 
@@ -40,7 +49,7 @@ const AddEditForm: FC<AddEditProductProps> = ({ openModal, setOpenModal, data, r
     });
 
     const handleOnSubmit = async (values: ProductFormValues) => {
-        if (!uploadedImage) {
+        if (!uploadedImage && !existingImage) {
             toast.error('Gambar produk harus diunggah.');
             return;
         }
@@ -50,10 +59,13 @@ const AddEditForm: FC<AddEditProductProps> = ({ openModal, setOpenModal, data, r
             formData.append('name', values.name);
             formData.append('description', values.description);
             formData.append('price', values.price.toString());
-            formData.append('image', uploadedImage.file);
+
+            if (uploadedImage) {
+                formData.append('image', uploadedImage.file);
+            }
 
             if (data?.id) {
-                await putProduct.mutateAsync({ id: data.id, params: formData as ProductPayload});
+                await putProduct.mutateAsync({ id: data.id, params: formData as ProductPayload });
                 toast.success('Produk berhasil diperbarui!');
             } else {
                 await postProduct.mutateAsync(formData as ProductPayload);
@@ -61,6 +73,7 @@ const AddEditForm: FC<AddEditProductProps> = ({ openModal, setOpenModal, data, r
             }
 
             setUploadedImage(null);
+            setExistingImage(null);
             setOpenModal(false);
             setReload?.((prev) => (prev ?? 0) + 1);
         } catch (error) {
@@ -72,15 +85,16 @@ const AddEditForm: FC<AddEditProductProps> = ({ openModal, setOpenModal, data, r
     const onClose = () => {
         setOpenModal(false);
         setUploadedImage(null);
+        setExistingImage(null);
     };
 
     return (
         <Modal isOpen={openModal} onClose={onClose} title="Tambah Produk">
             <Formik
                 initialValues={{
-                    name: data?.name || '',
-                    description: data?.description || '',
-                    price: data?.price || 0,
+                    name: data?.name ?? '',
+                    description: data?.description ?? '',
+                    price: data?.price?.replace('Rp', '') ?? '',
                 }}
                 onSubmit={handleOnSubmit}
                 enableReinitialize
@@ -105,20 +119,30 @@ const AddEditForm: FC<AddEditProductProps> = ({ openModal, setOpenModal, data, r
                                             : 'Seret & lepaskan gambar di sini, atau klik untuk memilih'}
                                     </p>
                                 </div>
-                                {uploadedImage && (
+                                {(uploadedImage || existingImage) && (
                                     <div className="mt-4 flex flex-col items-center">
                                         <img
-                                            src={uploadedImage.preview}
+                                            src={uploadedImage ? uploadedImage.preview : existingImage!}
                                             alt="Preview"
                                             className="w-32 h-32 object-cover rounded-lg shadow-md"
                                         />
-                                        <button
-                                            type="button"
-                                            onClick={() => setUploadedImage(null)}
-                                            className="mt-2 text-sm text-red-500 hover:underline"
-                                        >
-                                            Hapus Gambar
-                                        </button>
+                                        {uploadedImage ? (
+                                            <button
+                                                type="button"
+                                                onClick={() => setUploadedImage(null)}
+                                                className="mt-2 text-sm text-red-500 hover:underline"
+                                            >
+                                                Hapus Gambar
+                                            </button>
+                                        ) : (
+                                            <button
+                                                type="button"
+                                                onClick={() => setExistingImage(null)}
+                                                className="mt-2 text-sm text-red-500 hover:underline"
+                                            >
+                                                Hapus Gambar
+                                            </button>
+                                        )}
                                     </div>
                                 )}
                             </div>
@@ -146,7 +170,7 @@ const AddEditForm: FC<AddEditProductProps> = ({ openModal, setOpenModal, data, r
                             <div className="flex flex-col gap-1">
                                 <label>Harga Produk</label>
                                 <Field
-                                    type="number"
+                                    type="text"
                                     name="price"
                                     placeholder="Masukan Harga Produk"
                                     className="w-full bg-gray-100 bg-opacity-50 rounded border border-gray-300 text-base outline-none py-1 px-3 leading-8 transition-colors duration-200 ease-in-out"

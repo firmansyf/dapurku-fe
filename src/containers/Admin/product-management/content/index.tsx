@@ -14,7 +14,7 @@ import AddEditForm from './AddEdit'
 
 const Content: FC = () => {
   const [page, setPage] = useState<number>(1)
-  const [detail, setDetail] = useState<DataProducts>()
+  const [detail, setDetail] = useState<DataProducts | null>(null)
   const [reloadData, setReloadData] = useState<number>(0)
   const [searchQuery, setSearchQuery] = useState<string>('')
   const [debouncedSearch] = useDebounce(searchQuery, 700)
@@ -55,6 +55,12 @@ const Content: FC = () => {
 
   const onAdd = () => {
     setOpenModalAdd(true)
+    setDetail(null)
+  }
+  
+  const onEdit = (val: any) => {
+    setOpenModalAdd(true)
+    setDetail(val)
   }
 
   return (
@@ -71,6 +77,7 @@ const Content: FC = () => {
               onDelete={onDelete}
               onDetail={onDetail}
               onAdd={onAdd}
+              onEdit={onEdit}
             />
         </div>
       
