@@ -9,6 +9,7 @@ import { APIResponse } from '@/types/commonTypes'
 
 type ConfigOptions = {
     isAuth?: boolean
+    includeFormMultipart?: boolean
 }
 
 type AxiosConfigParams = {
@@ -107,6 +108,10 @@ const getCustomAxiosAdmin = ({ baseURL, config }: AxiosConfigParams) => {
       if (token) {
         headers.Authorization = `Bearer ${token}`
       }
+    }
+
+    if (config?.includeFormMultipart) {
+      headers['Content-Type'] = 'multipart/form-data'
     }
   
     const customAxios = axios.create({

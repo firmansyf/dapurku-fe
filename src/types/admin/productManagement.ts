@@ -28,7 +28,8 @@ export interface DetailProductProps {
 
 export interface AddEditProductProps {
     openModal: boolean
-    reload?: number
+    data?: DataProducts
+    reload: number
     setReload?: Dispatch<SetStateAction<number>>
     setOpenModal: Dispatch<SetStateAction<boolean>>
 }

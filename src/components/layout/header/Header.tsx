@@ -5,6 +5,13 @@ import { Login } from '@/containers/Login'
 import { useGlobalState } from '@/context/authContextProvider'
 import { FiLogOut } from 'react-icons/fi'
 import Logout from '@/containers/Logout'
+import { Pacifico } from 'next/font/google'
+
+const pacifico = Pacifico({
+    subsets: ['latin'],
+    display: 'swap',
+    weight: '400'
+})
 
 const Header: React.FC = () => {
   const [openLogin, setOpenLogin] = useState<boolean>(false)
@@ -16,7 +23,7 @@ const Header: React.FC = () => {
       <header className="fixed top-0 left-0 w-full bg-[#81C784] shadow z-50">
         <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex px-14 justify-between items-center h-14">
-            <div className={`text-lg text-green-900 font-bold tracking-wide italic`}>
+            <div className={`text-lg text-[#000] font-bold tracking-wide ${pacifico.className}`}>
                 Dapurku!
             </div>
 
