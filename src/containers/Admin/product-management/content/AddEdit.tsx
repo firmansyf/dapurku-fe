@@ -65,15 +65,21 @@ const AddEditForm: FC<AddEditProductProps> = ({ openModal, setOpenModal, data, r
             }
 
             if (data?.id) {
-                await putProduct.mutateAsync({ id: data.id, params: formData as ProductPayload });
-                toast.success('Produk berhasil diperbarui!');
+                await putProduct.mutateAsync({ id: data.id, params: formData as ProductPayload })
+                    .then(() => {
+                        toast.success('Produk berhasil diperbarui!')
+                        setUploadedImage(null)
+                        setExistingImage(null)
+                    })
             } else {
-                await postProduct.mutateAsync(formData as ProductPayload);
-                toast.success('Produk berhasil ditambahkan!');
-            }
-
-            setUploadedImage(null);
-            setExistingImage(null);
+                await postProduct.mutateAsync(formData as ProductPayload)
+                    .then(() => {
+                        toast.success('Produk berhasil ditambahkan!')
+                        setUploadedImage(null)
+                        setExistingImage(null)
+                    })
+            }    
+            
             setOpenModal(false);
             setReload?.((prev) => (prev ?? 0) + 1);
         } catch (error) {

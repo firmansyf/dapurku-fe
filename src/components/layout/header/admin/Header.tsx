@@ -2,9 +2,10 @@ import React, { useState } from 'react'
 import Logout from '@/containers/Logout'
 import Link from 'next/link'
 import { PATHS } from '@/helpers/constants'
-
+import { usePathname } from 'next/navigation'
 
 const HeaderAdmin: React.FC = () => {
+  const pathname = usePathname()
   const [openLogout, setOpenLogout] = useState<boolean>(false)
 
   const menu = [
@@ -27,7 +28,7 @@ const HeaderAdmin: React.FC = () => {
                 <Link
                   href={link.path}
                   key={index}
-                  className="text-sm transition"
+                  className={`text-sm transition ${pathname === link.path ? 'bg-blue-200 rounded-md p-2 text-[#003A77]' : ''}`}
                 >
                   {link.label}
                 </Link>
