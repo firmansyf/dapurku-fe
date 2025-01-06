@@ -9,6 +9,8 @@ const DetailProduct: FC <DetailProductProps> = ({data, openModal, setOpenModal})
         setOpenModal(false)
     }
 
+    console.log('data:' , data)
+
     return (
         <Modal
             isOpen={openModal}

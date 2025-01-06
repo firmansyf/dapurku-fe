@@ -77,6 +77,9 @@ const Content: FC = () => {
         <AddEditForm
           openModal={openModalAdd}
           setOpenModal={setOpenModalAdd}
+          data={detail as DataProducts}
+          reload={reloadData }
+          setReload={setReloadData}
         />
       
         <DeleteProduct

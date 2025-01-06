@@ -5,3 +5,10 @@ export type ProductParams = {
     totalPages?: number
     total?: number
 }
+
+export type ProductPayload = {
+    image?: string
+    name?: string
+    price?: string
+    description?: number
+}

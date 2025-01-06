@@ -1,14 +1,8 @@
 import React, { useState } from 'react'
-import { Pacifico } from 'next/font/google'
 import Logout from '@/containers/Logout'
 import Link from 'next/link'
 import { PATHS } from '@/helpers/constants'
 
-const pacifico = Pacifico({
-    subsets: ['latin'],
-    display: 'swap',
-    weight: '400'
-  })
 
 const HeaderAdmin: React.FC = () => {
   const [openLogout, setOpenLogout] = useState<boolean>(false)
@@ -23,7 +17,7 @@ const HeaderAdmin: React.FC = () => {
       <header className="fixed top-0 left-0 w-full bg-[#003A77] shadow z-50">
         <div className="mx-auto xl:px-7 sm:px-6 lg:px-2">
           <div className="flex gap-3 justify-between items-center h-14">
-            <div className={`text-lg text-white font-bold ${pacifico.className}`}>
+            <div className={`text-lg text-white font-bold`}>
                 Dapurku! CMS
             </div>
 
