@@ -57,9 +57,9 @@ const Header: React.FC = () => {
             {!state.isAuthenticated && (
               <div className='flex items-center gap-2'>
                 <Button text='Masuk' size='xs' variant='secondary' className='tracking-wide' onClick={() => setOpenLogin(true)}/>  
-                <Button text='Daftar' size='xs' variant='success' className='tracking-wide'/>            
+                <Button text='Daftar' size='xs' variant='success' className='tracking-wide' onClick={() => window.location.href = '/register'}/>            
               </div>
-            )}  
+            )} 
             
           </div>
         </div>

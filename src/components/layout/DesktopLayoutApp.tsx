@@ -18,7 +18,7 @@ const DesktopAppLayout = ({ children }: DesktopAppLayoutProps) => {
   }, []);
 
   const shouldShowHeaderAdmin = pathname && [PATHS.productManagement, PATHS.userManagement].includes(pathname);
-  const shouldShowHeader = pathname && ![PATHS.admin, PATHS.userManagement, PATHS.productManagement].includes(pathname);
+  const shouldShowHeader = pathname && ![PATHS.admin, PATHS.register, PATHS.userManagement, PATHS.productManagement].includes(pathname);
 
   return (
     <>

@@ -56,16 +56,16 @@ export const StateProvider: React.FC<StateProviderProps> = ({ children }) => {
     user: { id: number, email: string }, 
   ) => {
     try {
-      localStorage.setItem('token', token);
-      dispatch({ type: 'LOGIN', payload: user });
+      localStorage.setItem('token', token)
+      dispatch({ type: 'LOGIN', payload: user })
 
-      const res = await getProfile();
+      const res = await getProfile()
       if (res.data) {
         localStorage.setItem('profileInfo', JSON.stringify(res.data));
-        dispatch({ type: 'INFO_PROFILE', payload: res.data });
+        dispatch({ type: 'INFO_PROFILE', payload: res.data })
       }
     } catch (error) {
-      console.error('Error fetching profile info:', error);
+      console.error('Error fetching profile info:', error)
     }
   }
 

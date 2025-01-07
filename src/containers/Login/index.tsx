@@ -26,7 +26,7 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
       const res = await loginEndpoint.mutateAsync(params)
       setIsOpen(false)
       setTimeout(() => {
-        window.location.reload()
+        // window.location.reload()
         toast.success(res.message)
         afterSuccessLogin(res.token, res.user)
       }, 300)
