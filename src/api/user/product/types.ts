@@ -1,5 +1,5 @@
 export type ProductParams = {
-    keyword?: string
+    keyword?: string | null
     limit?: number
     page: number
     totalPages?: number

@@ -18,7 +18,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, title, children, footer,
   const sizeClasses = {
     small: 'max-w-sm',
     medium: 'max-w-lg',
-    large: 'max-w-2xl',
+    large: 'max-w-7xl',
   };
 
   useEffect(() => {

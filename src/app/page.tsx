@@ -5,15 +5,20 @@ import { useQueriesGetProducts } from "@/api/user/product"
 import Products from "@/containers/Product"
 import { useState, useEffect, useCallback } from "react"
 import { FiLoader, FiArrowDown } from "react-icons/fi"
+import { useSearchParams } from "next/navigation";
 
 export default function Home() {
-  const [page, setPage] = useState<number>(1)
+  const searchParams = useSearchParams()
+
   const [limit] = useState<number>(12)
+  const [page, setPage] = useState<number>(1)
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState<boolean>(false)
   const [hasMore, setHasMore] = useState<boolean>(true)
 
-  const params = { page, limit: 12 }
+  const search = searchParams.get('search')
+
+  const params = { page, limit: 12, keyword: search }
   const { data, error } = useQueriesGetProducts(params) ?? { data: [], error: null }
 
   const fetchProducts = useCallback(() => {
@@ -36,6 +41,11 @@ export default function Home() {
   }, [limit, data])
 
   useEffect(() => {
+    setProducts([])
+    setPage(1)
+  }, [search])
+
+  useEffect(() => {
     if (data) {
       fetchProducts()
     }
@@ -46,6 +56,8 @@ export default function Home() {
       setPage((prevPage) => prevPage + 1)
     }
   }
+
+  const noProductsMessage = search && !loading && !hasMore && !products.length ? "Maaf, produk tidak ada" : "Maaf, tidak ada lagi product";
 
   return (
     <div className="p-20">
@@ -71,11 +83,17 @@ export default function Home() {
             </div>
           )}
 
-        {!hasMore && !loading && (
-          <div className="mt-10 w-full flex items-center justify-center text-gray-400">
-            Maaf, tidak ada lagi product
-          </div>
-        )}
+          {!hasMore && !loading && !search && (
+            <div className="mt-10 w-full flex items-center justify-center text-gray-400">
+              Maaf, tidak ada lagi product
+            </div>
+          )}
+
+          {!hasMore && !loading && search && !products.length && (
+            <div className="mt-10 w-full flex items-center justify-center text-gray-400">
+              {noProductsMessage}
+            </div>
+          )}
 
         {error && (
           <div className="mt-10 w-full flex items-center justify-center text-red-500">
