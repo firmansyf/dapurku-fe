@@ -30,7 +30,7 @@ const LoginAdminPage: FC = () => {
 
     return (
         <div className='min-h-screen flex items-center justify-center'>
-            <Card title='Log in Admin' description='' className='w-1/4 tracking-wide'>
+            <Card title='Log in Admin' className='w-1/4 tracking-wide'>
                 <Formik
                   enableReinitialize
                   initialValues={{

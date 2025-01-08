@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
-import moment from 'moment';
+import moment from 'moment'
 import { useQueriesGetProducts } from '@/api/admin/product'
 import { Datatable } from '@/components/commons'
 import { useDebounce } from 'use-debounce'
@@ -74,6 +74,7 @@ const Content: FC = () => {
               data={data}
               onSearch={handleSearch}
               totalPages={totalPages}
+              isActions={true}
               onDelete={onDelete}
               onDetail={onDetail}
               onAdd={onAdd}
