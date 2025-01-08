@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
 import { Button, Datepicker } from '@/components/commons'
@@ -7,6 +8,8 @@ import { FC, useState, useEffect } from 'react'
 import { useQueriesGetProvince, getDistrict, getCity } from '@/api/address'
 import toast from 'react-hot-toast'
 import { useRegisterMutation, RegisterParams } from '@/api/auth'
+import { customStyles } from '@/helpers/config'
+import { LeftContainer }  from './LeftContainer'
 
 const RegisterModule: FC = () => {
     const [provId, setProvId] = useState<string | undefined>()
@@ -79,12 +82,9 @@ const RegisterModule: FC = () => {
 
     return (
         <section className='flex'>
-            <div className='w-1/3 px-10'>
-                <h1 className='text-2xl mt-10 font-semibold'>Dapurku!</h1>
-            </div>
+            <LeftContainer />
             <div className='flex-1 px-10 bg-[#EEE] min-h-screen'>
                 <h1 className='text-2xl mt-10 font-semibold'>Form Registrasi</h1>
-
                 <div className='my-5 p-3'>
                     <Formik
                         enableReinitialize
@@ -124,13 +124,13 @@ const RegisterModule: FC = () => {
                                     
                                     <div className={`flex-1 ${customStyle.section}`}>
                                       <label className={`${customStyle.label}`}>Jenis Kelamin</label>
-                                        <label className='flex gap-1'>
-                                         <Field type="radio" name="gender" value="Laki laki" />
-                                            Laki laki
-                                        </label>
-                                        <label className='flex gap-1'>
-                                          <Field type="radio" name="gender" value="Perempuan" />
-                                            Perempuan
+                                          <label className='flex gap-1 text-sm'>
+                                            <Field type="radio" name="gender" value="Laki laki" />
+                                             Laki laki
+                                            </label>
+                                            <label className='flex gap-1 text-sm'>
+                                              <Field type="radio" name="gender" value="Perempuan" />
+                                              Perempuan
                                         </label>
                                      </div>
                                 </div>
@@ -149,7 +149,9 @@ const RegisterModule: FC = () => {
                                         <label className={`${customStyle.label}`}>Provinsi</label>
                                         <Select
                                             options={provinceOptions}
-                                            onChange={(e) => {
+                                            placeholder='Pilih Provinsi'
+                                            styles={customStyles}
+                                            onChange={(e: any) => {
                                                 setFieldValue('province', e?.label)
                                                 setProvId(e?.value)
                                             }}
@@ -162,7 +164,9 @@ const RegisterModule: FC = () => {
                                         <label className={`${customStyle.label}`}>Kota</label>
                                         <Select
                                             options={cityData}
-                                            onChange={(e) => {
+                                            placeholder='Pilih Kota'
+                                            styles={customStyles}
+                                            onChange={(e : any) => {
                                                 setFieldValue('city', e?.label)
                                                 setProvCity(e?.value)
                                             }}
@@ -171,7 +175,12 @@ const RegisterModule: FC = () => {
                                     
                                     <div className={`flex-1 ${customStyle.section}`}>
                                         <label className={`${customStyle.label}`}>Kecamatan</label>
-                                        <Select options={districtData} onChange={(e) => setFieldValue('district', e?.label)} />
+                                        <Select 
+                                            placeholder='Pilih Kecamatan' 
+                                            options={districtData} 
+                                            styles={customStyles}
+                                            onChange={(e : any) => setFieldValue('district', e?.label)} 
+                                        />
                                      </div>
                                 </div>
 
@@ -198,8 +207,8 @@ const RegisterModule: FC = () => {
 
                                 
                                 <div className='flex w-full justify-end gap-3'>
-                                    <Button type='button' text='Cancel' variant='secondary' onClick={() => window.location.href ='/'} />
-                                    <Button type='submit' text='Simpan' variant='success' />
+                                    <Button type='button' size='sm' text='Cancel' variant='secondary' onClick={() => window.location.href ='/'} />
+                                    <Button type='submit' size='sm' text='Simpan' variant='success' />
                                 </div>
                             </Form>
                         )
