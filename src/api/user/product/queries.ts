@@ -9,7 +9,7 @@ export const useQueriesGetProducts = (
     reloadData?: number,
 ) => {
     return useQuery({
-        queryKey: ['products-list', {...params, reloadData }],
+        queryKey: ['products', {...params, reloadData }],
         queryFn: () => getProducts(params),
     })
 }

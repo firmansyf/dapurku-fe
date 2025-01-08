@@ -6,6 +6,7 @@ import { useGlobalState } from '@/context/authContextProvider'
 import { FiLogOut } from 'react-icons/fi'
 import Logout from '@/containers/Logout'
 import { Pacifico } from 'next/font/google'
+import { useRouter } from 'next/navigation'
 
 const pacifico = Pacifico({
     subsets: ['latin'],
@@ -14,9 +15,30 @@ const pacifico = Pacifico({
 })
 
 const Header: React.FC = () => {
+  const router = useRouter()
   const [openLogin, setOpenLogin] = useState<boolean>(false)
   const [openLogout, setOpenLogout] = useState<boolean>(false)
+  const [searchQuery, setSearchQuery] = useState<string>('');
+
   const { state } = useGlobalState()
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchQuery(value);
+  
+    if (value.trim() === '') {
+      router.push('/');
+    }
+  };
+
+  const handleSearch = (e: React.FormEvent) => {
+    e.preventDefault()
+    if (searchQuery.trim()) {
+      router.push(`/?search=${encodeURIComponent(searchQuery)}`);
+    } else {
+      router.push('/');
+    }
+  }
   
   return (
     <>
@@ -40,9 +62,37 @@ const Header: React.FC = () => {
               ))}
             </nav> */}
 
+            <div className='w-full flex items-center justify-center'>
+              <form className='relative w-2/3' onSubmit={handleSearch}>
+                <input 
+                  type='text' 
+                  placeholder='Cari produk...' 
+                  value={searchQuery}
+                  onChange={handleInputChange}
+                  className='w-full h-9 px-5 pr-10 text-sm border rounded-full shadow-md focus:outline-none focus:border-transparent'
+                />
+                <button type='submit' className='absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700'>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    className="h-5 w-5"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M21 21l-4.35-4.35m1.35-5.65a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                 </button>
+                </form>
+              </div>
+
             {state.isAuthenticated && (
               <div className='flex items-center gap-2 h-full py-4'>  
-                <span className='text-sm tracking-wide cursor-pointer hover:underline text-[#FFF]'>{state.data?.username}</span>
+                <span className='text-sm tracking-wide truncate cursor-pointer hover:underline text-[#FFF]'>{state.data?.username}</span>
                 <div className='h-full border border-[#F9F9F9] mx-2' />
                 <span
                   className='flex items-center gap-1 tracking-wide text-sm cursor-pointer text-blue-700 hover:text-blue-800'

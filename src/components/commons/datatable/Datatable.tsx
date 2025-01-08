@@ -58,7 +58,7 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
           className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
         />
 
-        <Button text='Tambah +' size='sm' className='text-sm' onClick={onAdd} />
+        {isActions && (<Button text='Tambah +' size='sm' className='text-sm' onClick={onAdd} />)}
       </div>
 
       {data?.length > 0 ? (
