@@ -1,12 +1,12 @@
 import React from 'react';
 
 interface CardProps {
-  title: string;
-  description: string;
-  children?: React.ReactNode; 
-  imageUrl?: string;
-  actions?: React.ReactNode; // Bisa berupa tombol atau elemen lainnya
-  className?: string;
+  title: string
+  description?: string
+  children?: React.ReactNode
+  imageUrl?: string
+  actions?: React.ReactNode
+  className?: string
 }
 
 const Card: React.FC<CardProps> = ({ title, description, imageUrl, actions, children, className = 'max-w-sm' }) => {
@@ -24,7 +24,7 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, actions, chil
         <h5 className="text-xl font-bold tracking-tight text-gray-900">
           {title}
         </h5>
-        <p className="mt-2 text-gray-500 text-wrap tracking-wide text-sm truncate h-14">{description}</p>
+        {description && <p className="mt-2 text-gray-500 text-wrap tracking-wide text-sm truncate h-14">{description}</p>}
 
         {children && <div className="mt-3">{children}</div>}
 

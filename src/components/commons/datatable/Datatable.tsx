@@ -14,6 +14,7 @@ interface DatatableProps<T> {
   onDetail?: (item: T) => void
   onSearch?: (query: string) => void
   onAdd?: () => void
+  isActions?: boolean
 }
 
 const Datatable = <T extends Record<string, string | number | boolean>>({
@@ -27,6 +28,7 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
   onSearch,
   totalPages,
   onAdd,
+  isActions = true
 }: DatatableProps<T>) => {
   const [searchQuery, setSearchQuery] = useState('')
   
@@ -46,7 +48,7 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
   }
 
   return (
-    <div className="overflow-x-auto">
+    <div className="overflow-x-hidden">
       <div className="mb-4 flex justify-between items-center">
         <input
           type="text"
@@ -61,6 +63,7 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
 
       {data?.length > 0 ? (
         <>
+          <div className='overflow-x-auto'>
           <table className="min-w-full bg-white border border-gray-300">
             <thead>
               <tr className="border-b bg-gray-100">
@@ -72,7 +75,7 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
                       {key}
                     </th>
                   ))}
-                <th className="py-2 px-4 text-left text-sm font-semibold text-gray-700">Actions</th>
+                  {isActions && (<th className="py-2 px-4 text-left text-sm font-semibold text-gray-700">Actions</th>)}
               </tr>
             </thead>
 
@@ -82,38 +85,43 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
                   {/* Filter nilai untuk menghilangkan ID dan gambar */}
                   {Object.entries(row)
                     .filter(([key]) => key !== 'id' && key !== 'image')
+
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     .map(([_, value], i) => (
                       <td key={i} className="py-2 px-4 text-sm text-gray-600 ">
                         <p className='truncate w-[200px]'>{value}</p>
                       </td>
                     ))}
-                  <td className="py-2 px-4 text-sm text-gray-600">
-                    <div className="flex space-x-2">
-                      <button
-                        onClick={() => onDetail?.(row)}
-                        className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
-                      >
-                        Detail
-                      </button>
-                      <button
-                        onClick={() => onEdit?.(row)}
-                        className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
-                      >
-                        Edit
-                      </button>
-                      <button
-                        onClick={() => onDelete?.(row)}
-                        className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
-                      >
-                        Delete
-                      </button>
-                    </div>
-                  </td>
+                  
+                  {isActions && (
+                    <td className="py-2 px-4 text-sm text-gray-600">
+                      <div className="flex space-x-2">
+                        <button
+                          onClick={() => onDetail?.(row)}
+                          className="px-2 py-1 bg-blue-500 text-white rounded hover:bg-blue-600"
+                        >
+                          Detail
+                        </button>
+                        <button
+                          onClick={() => onEdit?.(row)}
+                          className="px-2 py-1 bg-yellow-500 text-white rounded hover:bg-yellow-600"
+                        >
+                          Edit
+                        </button>
+                        <button
+                          onClick={() => onDelete?.(row)}
+                          className="px-2 py-1 bg-red-500 text-white rounded hover:bg-red-600"
+                        >
+                          Delete
+                        </button>
+                      </div>
+                    </td>
+                  )}
                 </tr>
               ))}
             </tbody>
           </table>
+          </div>
 
           <div className="flex items-center justify-end gap-3 mt-4">
             <button
@@ -143,7 +151,7 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
         <div className="text-center text-gray-500">No data available.</div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default Datatable;
+export default Datatable
