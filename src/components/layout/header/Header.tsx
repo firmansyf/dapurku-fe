@@ -20,8 +20,8 @@ const Header: React.FC = () => {
   
   return (
     <>
-      <header className="fixed top-0 left-0 w-full bg-[#81C784] shadow z-50">
-        <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-8">
+       <header className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 shadow-md z-50">
+        <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex px-14 justify-between items-center h-14">
             <div className={`text-lg text-[#000] font-bold tracking-wide ${pacifico.className}`}>
                 Dapurku!
@@ -42,7 +42,7 @@ const Header: React.FC = () => {
 
             {state.isAuthenticated && (
               <div className='flex items-center gap-2 h-full py-4'>  
-                <span className='text-sm tracking-wide cursor-pointer hover:underline text-[#333333]'>{state.data?.username}</span>
+                <span className='text-sm tracking-wide cursor-pointer hover:underline text-[#FFF]'>{state.data?.username}</span>
                 <div className='h-full border border-[#F9F9F9] mx-2' />
                 <span
                   className='flex items-center gap-1 tracking-wide text-sm cursor-pointer text-blue-700 hover:text-blue-800'

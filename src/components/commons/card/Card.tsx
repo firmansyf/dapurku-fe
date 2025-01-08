@@ -15,20 +15,20 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, actions, chil
       {imageUrl && (
         // eslint-disable-next-line @next/next/no-img-element
         <img
-          className="w-full h-48 object-cover"
+          className="w-full h-52 object-cover"
           src={imageUrl}
           alt={title}
         />
       )}
-      <div className="p-6">
+      <div className="p-4">
         <h5 className="text-xl font-bold tracking-tight text-gray-900">
           {title}
         </h5>
-        <p className="mt-2 text-gray-700 truncate">{description}</p>
+        <p className="mt-2 text-gray-500 text-wrap tracking-wide text-sm truncate h-14">{description}</p>
 
-        {children && <div className="mt-4">{children}</div>}
+        {children && <div className="mt-3">{children}</div>}
 
-        {actions && <div className="mt-4 flex space-x-2">{actions}</div>}
+        {actions && <div className="mt-4 w-full flex space-x-2">{actions}</div>}
       </div>
     </div>
   );
