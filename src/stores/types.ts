@@ -1,4 +1,5 @@
 export type User = {
+    id?: number
     image: {
         type: string
         data: number[]

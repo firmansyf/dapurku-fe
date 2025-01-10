@@ -6,7 +6,8 @@ import { useGlobalState } from '@/context/authContextProvider'
 import { FiLogOut } from 'react-icons/fi'
 import Logout from '@/containers/Logout'
 import { Pacifico } from 'next/font/google'
-import { useRouter } from 'next/navigation'
+import { useRouter, usePathname } from 'next/navigation'
+import { PATHS } from '@/helpers/constants'
 
 const pacifico = Pacifico({
     subsets: ['latin'],
@@ -16,11 +17,14 @@ const pacifico = Pacifico({
 
 const Header: React.FC = () => {
   const router = useRouter()
+  const pathname = usePathname()
   const [openLogin, setOpenLogin] = useState<boolean>(false)
   const [openLogout, setOpenLogout] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const { state } = useGlobalState()
+
+  const shouldShowSearch = pathname && ![PATHS.profile].includes(pathname);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -29,14 +33,14 @@ const Header: React.FC = () => {
     if (value.trim() === '') {
       router.push('/');
     }
-  };
+  }
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
     if (searchQuery.trim()) {
       router.push(`/?search=${encodeURIComponent(searchQuery)}`);
     } else {
-      router.push('/');
+      router.push('/')
     }
   }
   
@@ -45,7 +49,10 @@ const Header: React.FC = () => {
        <header className="fixed top-0 left-0 w-full bg-gradient-to-r from-green-400 via-green-500 to-green-600 shadow-md z-50">
         <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex px-14 justify-between items-center h-14">
-            <div className={`text-lg text-[#000] font-bold tracking-wide ${pacifico.className}`}>
+            <div
+              className={`text-lg text-[#000] font-bold tracking-wide cursor-pointer ${pacifico.className}`}
+              onClick={() => router.push('/')}
+            >
                 Dapurku!
             </div>
 
@@ -61,6 +68,8 @@ const Header: React.FC = () => {
                 </a>
               ))}
             </nav> */}
+
+            {shouldShowSearch && (
 
             <div className='w-full flex items-center justify-center'>
               <form className='relative w-2/3' onSubmit={handleSearch}>
@@ -89,10 +98,16 @@ const Header: React.FC = () => {
                  </button>
                 </form>
               </div>
+            )}
 
             {state.isAuthenticated && (
               <div className='flex items-center gap-2 h-full py-4'>  
-                <span className='text-sm tracking-wide truncate cursor-pointer hover:underline text-[#FFF]'>{state.data?.username}</span>
+                <span
+                  onClick={() => router.push('/profile')}
+                  className='text-sm tracking-wide truncate cursor-pointer hover:underline text-[#FFF]'
+                >
+                  {state.data?.username}
+                </span>
                 <div className='h-full border border-[#F9F9F9] mx-2' />
                 <span
                   className='flex items-center gap-1 tracking-wide text-sm cursor-pointer text-blue-700 hover:text-blue-800'

@@ -40,7 +40,7 @@ const AddEditForm: FC<AddEditProductProps> = ({ openModal, setOpenModal, data, r
             });
             setExistingImage(null)
         }
-    };
+    }
 
     const { getRootProps, getInputProps, isDragActive } = useDropzone({
         onDrop,

@@ -73,7 +73,8 @@ export const StateProvider: React.FC<StateProviderProps> = ({ children }) => {
     localStorage.clear();
     deleteCookie('token');
     dispatch({ type: 'LOGOUT' });
-    window.location.reload();
+    
+    window.location.href = '/';
   }
   
     return (
