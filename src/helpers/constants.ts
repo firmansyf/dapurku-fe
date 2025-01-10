@@ -3,5 +3,6 @@ export const PATHS = {
     register: '/register',
     admin: '/admin',
     userManagement: '/admin/user-management',
-    productManagement: '/admin/product-management'
+    productManagement: '/admin/product-management',
+    profile: '/profile',
 }

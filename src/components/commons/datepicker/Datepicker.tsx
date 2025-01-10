@@ -1,5 +1,6 @@
 'use client'
 
+import moment from "moment"
 import React, { useState } from "react"
 import { Calendar } from "react-date-range"
 import "react-date-range/dist/styles.css"
@@ -11,38 +12,42 @@ type DatePickerProps = {
   initialDate?: Date;
   minDate?: Date;
   maxDate?: Date;
+  className?: string;
 };
 
 const DatePicker: React.FC<DatePickerProps> = ({
-  label = "Select Date",
+  label,
   onChange,
-  initialDate = new Date(),
+  initialDate,
   minDate,
   maxDate,
+  className = 'py-2'
 }) => {
-  const [date, setDate] = useState<Date>(initialDate);
-  const [showPicker, setShowPicker] = useState<boolean>(false);
+  const [date, setDate] = useState<Date>(initialDate as Date)
+  const [showPicker, setShowPicker] = useState<boolean>(false)
   const [isDateSelected, setIsDateSelected] = useState<boolean>(false)
 
   const handleSelect = (selectedDate: Date) => {
-    setDate(selectedDate);
+    setDate(selectedDate)
     setIsDateSelected(true)
-    setShowPicker(false);
+    setShowPicker(false)
     if (onChange) {
-      onChange(selectedDate);
+      onChange(selectedDate)
     }
   }
 
   return (
-    <div className="relative inline-block">
-      {label && <label className="block mb-2 text-sm font-medium text-gray-700">{label}</label>}
+    <div className="relative w-full">
+      {label && (
+        <label className="block mb-2 text-sm font-medium text-gray-700">{label}</label>
+      )}
       <input
         type="text"
-        value={isDateSelected ? date.toLocaleDateString("en-CA") : ""}
-        placeholder="Pilih tanggal" 
+        value={isDateSelected || date ? moment(date).format("YYYY-MM-DD") : ""}
+        placeholder="Pilih tanggal"
         readOnly
         onClick={() => setShowPicker((prev) => !prev)}
-        className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm text-base outline-none cursor-pointer"
+        className={`w-full ${className} border border-gray-300 rounded-md shadow-sm text-base outline-none cursor-pointer`}
       />
       {showPicker && (
         <div className="absolute z-50 mt-2 bg-white rounded-md shadow-lg">
@@ -58,5 +63,6 @@ const DatePicker: React.FC<DatePickerProps> = ({
     </div>
   );
 };
+
 
 export default DatePicker

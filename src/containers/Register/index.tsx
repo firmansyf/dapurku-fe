@@ -9,7 +9,7 @@ import { useQueriesGetProvince, getDistrict, getCity } from '@/api/address'
 import toast from 'react-hot-toast'
 import { useRegisterMutation, RegisterParams } from '@/api/auth'
 import { customStyles } from '@/helpers/config'
-import { LeftContainer }  from './LeftContainer'
+import { LeftContainer } from './LeftContainer'
 
 const RegisterModule: FC = () => {
     const [provId, setProvId] = useState<string | undefined>()
@@ -137,12 +137,12 @@ const RegisterModule: FC = () => {
 
                                 <div className='flex space-x-3'>
                                     <div className={`flex-1 ${customStyle.section}`}>
-                                        <Datepicker
-                                            label='Tanggal Kelahiran'
-                                            minDate={new Date(1900, 0, 1)}
-                                            maxDate={new Date()}
-                                            onChange={(date) => setFieldValue('birth_date', date)}
-                                        />
+                                    <Datepicker
+                                      label="Tanggal Kelahiran"
+                                      minDate={new Date(1900, 0, 1)}
+                                      maxDate={new Date()}
+                                      onChange={(date: Date) => setFieldValue('birth_date', date.toISOString())}
+                                     />
                                     </div>
                                     
                                     <div className={`flex-1 ${customStyle.section}`}>

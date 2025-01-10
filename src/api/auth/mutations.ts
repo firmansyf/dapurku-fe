@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
-import { LoginParams, RegisterParams } from './types'
-import { login, loginAdmin, logout, register } from './api'
+import { LoginParams, RegisterParams, EditUserParams } from './types'
+import { login, loginAdmin, logout, register, putProfile } from './api'
 
 export const useLoginMutation = () => {
     return useMutation({
@@ -27,5 +27,12 @@ export const useRegisterMutation = () => {
   return useMutation({
     mutationKey: ['register'],
     mutationFn: (params: RegisterParams) => register(params),
+  })
+}
+
+export const useUserPutMutation = () => {
+  return useMutation({
+    mutationKey: ['put-users'],
+    mutationFn: ({id, params}:{ id: number, params: EditUserParams}) => putProfile(id, params),
   })
 }

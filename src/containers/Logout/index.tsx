@@ -25,8 +25,8 @@ const Logout: FC<LogoutProps> = ({ isOpen, setIsOpen }) => {
                 if (pathname && pathname === '/admin') {
                     router.push('/admin')
                     window.location.reload()              
-                }   
-                
+                }
+
                 toast.success(res.message)
                 setIsOpen(false)
                 clearLogout()

@@ -1,7 +1,7 @@
 import apiResolver from "../apiResolver"
 import getCustomAxios from "../customAxios"
 import getCustomAxiosAdmin from "../customAxiosAdmin"
-import { LoginParams, RegisterParams } from "./types"
+import { LoginParams, RegisterParams, EditUserParams} from "./types"
 
 const axios = getCustomAxios({
   baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/auth/`
@@ -15,6 +15,14 @@ const axiosWithAuth = getCustomAxios({
   baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1/`,
   config: {
     isAuth: true
+  }
+})
+
+const axiosWithAuthFormData = getCustomAxiosAdmin({
+  baseURL: `${process.env.NEXT_PUBLIC_API_BASE_URL}/api/v1`,
+  config: {
+      isAuth: true,
+      includeFormMultipart: true
   }
 })
 
@@ -49,6 +57,13 @@ export function logout() {
 // Endpoint Me ( Data Pengguna )
 export function getProfile() {
   return apiResolver(() => axiosWithAuth.get('/me'), {
+    throwErrorObject: true
+  })
+}
+
+// Endpoint edit Me ( Data Pengguna )
+export function putProfile(id: number | string, params: EditUserParams) {
+  return apiResolver(() => axiosWithAuthFormData.put(`/users/${id}`, params), {
     throwErrorObject: true
   })
 }
