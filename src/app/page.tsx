@@ -27,7 +27,13 @@ export default function Home() {
     setTimeout(() => {
       try {
         if (data && Array.isArray(data.data) && data.data.length > 0) {
-          setProducts((prevProducts) => [...prevProducts, ...data.data])
+
+          setProducts((prevProducts) => {
+            const newProducts = data.data.filter(
+              (newProduct : any) => !prevProducts.some((prevProduct) => prevProduct.id === newProduct.id)
+            )
+            return [...prevProducts, ...newProducts]
+          })
           setHasMore(data.data.length === limit)
         } else {
           setHasMore(false)

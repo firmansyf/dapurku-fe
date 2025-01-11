@@ -18,11 +18,11 @@ interface UploadedImage {
 }
 
 export default function DetailProfile() {
-    const { state: { data } } = useGlobalState()
+    const { state: { data }, dispatch } = useGlobalState()
     const [provId, setProvId] = useState<string | undefined>()
     const [idCity, setProvCity] = useState<string | undefined>()
     const [getCityData, setGetCity] = useState<{ value: string; label: string }>()
-    const [profileImage, setProfileImage] = useState<UploadedImage | null>(null)
+    const [profileImage, setProfileImage] = useState<UploadedImage | undefined>()
 
     const [cityData, setCityData] = useState<{ value: string; label: string }[]>([])
     const [districtData, setDistrictData] = useState<{ value: string; label: string }[]>([])
@@ -37,7 +37,7 @@ export default function DetailProfile() {
     const filterDataProvince = provinceOptions?.find((item) => item.label?.toUpperCase() === data?.province?.toUpperCase())
     const url = data?.image.data
         ? String.fromCharCode(...data.image.data) 
-        :  undefined
+        : undefined
     
         const onDrop = (acceptedFiles: File[]) => {
             if (acceptedFiles.length > 0) {
@@ -98,7 +98,8 @@ export default function DetailProfile() {
             }
             
             await editProfile.mutateAsync({ id: data?.id ?? 0, params: formData as any }).then((res) => {
-                toast.success(res.mesage)
+                toast.success(res.message)
+                dispatch({type:'INFO_PROFILE', payload: res.data})
             })
         } catch (err) {
             const { data } = err as { data: { error: string } }
@@ -252,28 +253,34 @@ export default function DetailProfile() {
                             </div>
                             </div>
 
-                            <div className="w-1/3 flex items-start justify-start relative">
-                             <div {...getRootProps()} className="relative w-[50%] h-[50%] border-2 border-dashed rounded-full cursor-pointer p-2">
-                                <input {...getInputProps()} />
-                                <img
-                                    src={profileImage?.preview || url || undefined}
-                                    alt="profile-logo"
-                                    className="w-full h-full rounded-full object-cover"
-                                />
-                                 <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                                  <p className="text-white text-center text-sm font-medium">
-                                   Klik untuk mengubah profile
-                                  </p>
+                            <div className="w-1/3 flex flex-col gap-6 items-start justify-start relative">
+                                <div {...getRootProps()} className="relative w-[50%] h-[50%] border-2 border-dashed rounded-full cursor-pointer p-2">
+                                    <input {...getInputProps()} />
+                                    <img
+                                        src={profileImage?.preview || url || data?.image as undefined || undefined}
+                                        alt="profile-logo"
+                                        className="w-full h-full rounded-full object-cover"
+                                    />
+                                    <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                                    <p className="text-white text-center text-sm font-medium">
+                                        Klik untuk mengubah profile
+                                    </p>
+                                    </div>
                                 </div>
-                             </div>
+                                
+                                <div className='flex flex-col'>
+                                    <label className='text-sm opacity-60'>Bergabung</label>
+                                    <span className='text-sm font-semibold'>{moment(data?.registration_date).format('LL')}</span>
+                                </div>
                            </div>
                         </div>
 
                         <Button
-                            size='sm'
+                            size="sm"
                             type="submit"
-                            className='flex-1 bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:from-green-500 hover:via-green-600 hover:to-green-700 transition duration-300 mt-10'
-                            text='Simpan Perubahan'
+                            variant="outline"
+                            className="flex-1 border-2 border-green-500 text-green-600 font-semibold hover:bg-green-500 hover:text-white transition duration-300 mt-10"
+                            text="Simpan Perubahan"
                         />
                     </div>
                 </Form>

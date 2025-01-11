@@ -51,7 +51,7 @@ const Header: React.FC = () => {
           <div className="flex px-14 justify-between items-center h-14">
             <div
               className={`text-lg text-[#000] font-bold tracking-wide cursor-pointer ${pacifico.className}`}
-              onClick={() => router.push('/')}
+              onClick={() => window.location.href = '/'}
             >
                 Dapurku!
             </div>
