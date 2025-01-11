@@ -30,11 +30,13 @@ const ProfileModule: FC = () => {
     };
 
     return (
-        <div className='p-20 min-h-screen overflow-y-hidden space-y-5'>
-            <h1 className='text-2xl font-bold'>Informasi Pengguna</h1>
-
+        <>
+        <div className='text-2xl backdrop-blur-sm font-semibold bg-white/30 p-7 px-20 z-10 border-b-2 sticky top-14'>
+            Informasi Pengguna
+        </div>
+        <div className='p-[57px] min-h-screen overflow-y-hidden space-y-5'>
             <div className='flex rounded-md h-[80vh]'>
-                <div className='w-1/5 p-5 border-r-2'>
+                <div className='w-1/5 p-5'>
                     {/* Navigation */}
                     <nav className='space-y-2'>
                         <button 
@@ -60,6 +62,7 @@ const ProfileModule: FC = () => {
                 </div>
             </div>
         </div>
+        </>
     );
 };
 
