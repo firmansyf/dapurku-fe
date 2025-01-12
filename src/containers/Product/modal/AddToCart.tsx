@@ -2,12 +2,53 @@ import { Modal, Button } from "@/components/commons"
 import { AddToCartProps } from '@/types/containers/product'
 import { BiCartAlt } from "react-icons/bi"
 import { currencyFormat } from '@/helpers/commons'
+import { useGlobalState } from "@/context/authContextProvider"
+import Swal from 'sweetalert2'
+import { useAddCartMutation } from "@/api/user/cart"
+import toast from "react-hot-toast"
 
 export default function AddToCart({ openModal, setOpenModal, data }: AddToCartProps) {
+    const { state : { isAuthenticated } } = useGlobalState()
+    const postCart = useAddCartMutation()
+
+    const handleOnClick = () => {
+        if (isAuthenticated) {
+            const params = {product_id: data?.id as number, quantity: 1}
+            try {
+                postCart.mutateAsync(params).then((res) => {
+                    setOpenModal(false)
+                    console.log('res :', res)
+                    Swal.fire({
+                        position: "center",
+                        icon: "success",
+                        title: 'Data berhasil masuk keranjang',
+                        showConfirmButton: false,
+                        timer: 1500
+                    })
+                })
+            } catch (err) {
+                const { data } = err as { data: { error: string } }
+                toast.error(data.error)
+            }
+           
+        } else {
+            setOpenModal(false)
+            Swal.fire({
+                title: "Kelihatannya anda belum login",
+                text: "Mohon untuk login terlebih dahulu",
+                icon: "warning",
+                showCancelButton: true,
+                cancelButtonText: 'Close',
+                showConfirmButton: false,
+            })
+        }
+
+    }
 
     const onCloseModal = () => {
         setOpenModal(false)
     }
+
     return (
         <Modal
             size="small"
@@ -17,6 +58,7 @@ export default function AddToCart({ openModal, setOpenModal, data }: AddToCartPr
             footer={
                 <div>
                     <Button
+                        onClick={handleOnClick}
                         size='sm'
                         variant="outline"
                         className='border-2'
