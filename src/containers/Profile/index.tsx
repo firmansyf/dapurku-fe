@@ -2,9 +2,16 @@
 
 import { FC, useState } from 'react'
 import DetailProfile from './DetailProfile'
+import CartList from './CartList'
+import { useQueriesGetCart } from '@/api/user/cart'
+import { FiAlertCircle } from "react-icons/fi"
 
 const ProfileModule: FC = () => {
     const [activeSection, setActiveSection] = useState('profile')
+    const [page, ] = useState<number>(1)
+    const params = { page, }
+    
+    const { data : cart} = useQueriesGetCart(params)?.data ?? []
 
     const renderContent = () => {
         switch (activeSection) {
@@ -17,24 +24,28 @@ const ProfileModule: FC = () => {
                         <p>Ubah pengaturan akun Anda di sini.</p>
                     </div>
                 )
-            case 'activity':
+            case 'order':
                 return (
                     <div>
-                        <h2 className='text-xl font-semibold mb-4'>Aktivitas Saya</h2>
-                        <p>Daftar aktivitas Anda akan muncul di sini.</p>
+                        <h2 className='text-xl font-semibold mb-4'>Pesanan Saya</h2>
+                        <p>Daftar pesanan Anda akan muncul di sini.</p>
                     </div>
                 )
+            case 'cart':
+                return <CartList cart={cart} />
             default:
                 return null;
         }
     };
 
     return (
-        <div className='p-20 min-h-screen overflow-y-hidden space-y-5'>
-            <h1 className='text-2xl font-bold'>Informasi Pengguna</h1>
-
+        <>
+        <div className='text-2xl backdrop-blur-sm font-semibold bg-white/30 p-7 px-20 z-10 border-b-2 sticky top-14'>
+            Informasi Pengguna
+        </div>
+        <div className='p-[57px] min-h-screen space-y-5'>
             <div className='flex rounded-md h-[80vh]'>
-                <div className='w-1/5 p-5 border-r-2'>
+                <div className='w-1/5 p-5'>
                     {/* Navigation */}
                     <nav className='space-y-2'>
                         <button 
@@ -43,9 +54,14 @@ const ProfileModule: FC = () => {
                             Profil Saya
                         </button>
                         <button 
-                            onClick={() => setActiveSection('activity')} 
-                            className={`block text-sm w-full text-left px-3 py-2 rounded ${activeSection === 'activity' ? 'text-green-700 font-semibold' : ' hover:'}`}>
+                            onClick={() => setActiveSection('order')} 
+                            className={`block text-sm w-full text-left px-3 py-2 rounded ${activeSection === 'order' ? 'text-green-700 font-semibold' : ' hover:'}`}>
                             Pesanan Saya
+                        </button>
+                        <button 
+                            onClick={() => setActiveSection('cart')} 
+                            className={`block text-sm w-full text-left px-3 py-2 rounded ${activeSection === 'cart' ? 'text-green-700 font-semibold' : ' hover:'}`}>
+                                <span className='flex gap-1'>Keranjang {cart?.length > 0 && <FiAlertCircle className='text-red-500' />}</span>
                         </button>
                         <button 
                             onClick={() => setActiveSection('settings')} 
@@ -54,12 +70,13 @@ const ProfileModule: FC = () => {
                         </button>
                     </nav>
                 </div>
-                <div className='flex-1 ml-4 p-5'>
+                <div className='flex-1 ml-4 py-5 inline-block'>
                     {/* Content */}
                     {renderContent()}
                 </div>
             </div>
         </div>
+        </>
     );
 };
 
