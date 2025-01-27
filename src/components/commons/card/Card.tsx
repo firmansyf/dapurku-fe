@@ -21,10 +21,10 @@ const Card: React.FC<CardProps> = ({ title, description, imageUrl, actions, chil
         />
       )}
       <div className="p-4">
-        <h5 className="text-xl font-bold tracking-tight text-gray-900">
+        <h5 className="text-xl font-bold tracking-wide text-gray-900">
           {title}
         </h5>
-        {description && <p className="mt-2 text-gray-500 text-wrap tracking-wide text-sm truncate h-14">{description}</p>}
+        {description && <p className="mt-2 text-gray-500 text-wrap tracking-wide truncate text-sm h-14">{description}</p>}
 
         {children && <div className="mt-3">{children}</div>}
 

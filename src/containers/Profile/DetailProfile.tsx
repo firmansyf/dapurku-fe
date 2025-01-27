@@ -262,8 +262,8 @@ export default function DetailProfile() {
                                         className="w-full h-full rounded-full object-cover"
                                     />
                                     <div className="absolute inset-0 bg-black bg-opacity-50 rounded-full flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
-                                    <p className="text-white text-center text-sm font-medium">
-                                        Klik untuk mengubah profile
+                                    <p className="text-white text-center tracking-wide text-sm font-medium">
+                                        Klik untuk mengubah <br /> profile
                                     </p>
                                     </div>
                                 </div>

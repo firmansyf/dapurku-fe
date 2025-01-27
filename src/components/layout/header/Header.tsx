@@ -5,21 +5,17 @@ import { Login } from '@/containers/Login'
 import { useGlobalState } from '@/context/authContextProvider'
 import { FiLogOut } from 'react-icons/fi'
 import Logout from '@/containers/Logout'
-import { Pacifico } from 'next/font/google'
 import { useRouter, usePathname } from 'next/navigation'
 import { PATHS } from '@/helpers/constants'
+import RegisterModule from '@/containers/Register'
 
-const pacifico = Pacifico({
-    subsets: ['latin'],
-    display: 'swap',
-    weight: '400'
-})
 
 const Header: React.FC = () => {
   const router = useRouter()
   const pathname = usePathname()
   const [openLogin, setOpenLogin] = useState<boolean>(false)
   const [openLogout, setOpenLogout] = useState<boolean>(false)
+  const [openRegister, setOpenRegister] = useState<boolean>(false)
   const [searchQuery, setSearchQuery] = useState<string>('');
 
   const { state } = useGlobalState()
@@ -50,7 +46,7 @@ const Header: React.FC = () => {
         <div className="max-w-screen mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex px-14 justify-between items-center h-14">
             <div
-              className={`text-lg text-[#000] font-bold tracking-wide cursor-pointer ${pacifico.className}`}
+              className={`text-lg text-[#000] font-bold tracking-wide cursor-pointer`}
               onClick={() => window.location.href = '/'}
             >
                 Dapurku!
@@ -108,13 +104,15 @@ const Header: React.FC = () => {
                 >
                   {state.data?.username}
                 </span>
-                <div className='h-full border border-[#F9F9F9] mx-2' />
+
+                <div className='h-5 border border-[#F9F9F9] mx-2' />
+
                 <span
-                  className='flex items-center gap-1 tracking-wide text-sm cursor-pointer text-blue-700 hover:text-blue-800'
+                  className='flex items-center gap-1 tracking-wide text-sm cursor-pointer text-white'
                   onClick={() => setOpenLogout(true)}
                 >
-                  <FiLogOut size={17} /> 
-                  Keluar
+                  <FiLogOut size={14} className='mt-1'/> 
+                  <span className=''>Keluar</span>
                 </span>            
               </div>
             )}
@@ -122,7 +120,7 @@ const Header: React.FC = () => {
             {!state.isAuthenticated && (
               <div className='flex items-center gap-2'>
                 <Button text='Masuk' size='xs' variant='secondary' className='tracking-wide' onClick={() => setOpenLogin(true)}/>  
-                <Button text='Daftar' size='xs' variant='success' className='tracking-wide' onClick={() => window.location.href = '/register'}/>            
+                <Button text='Daftar' size='xs' variant='success' className='tracking-wide' onClick={() => setOpenRegister(true)}/>            
               </div>
             )} 
             
@@ -132,6 +130,7 @@ const Header: React.FC = () => {
 
       <Login isOpen={openLogin} setIsOpen={setOpenLogin} />
       <Logout isOpen={openLogout} setIsOpen={setOpenLogout} />
+      <RegisterModule onOpen={openRegister} setOnOpen={setOpenRegister} />
     </>
   );
 };

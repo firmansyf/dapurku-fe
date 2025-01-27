@@ -42,6 +42,7 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
       title="Masuk"
       isOpen={isOpen}
       size='small'
+      iconClose={true}
       onClose={() => setIsOpen(false)}
     >
       <Formik
