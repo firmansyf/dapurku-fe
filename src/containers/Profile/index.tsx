@@ -47,7 +47,7 @@ const ProfileModule: FC = () => {
             <div className='flex rounded-md h-[80vh]'>
                 <div className='w-1/5 p-5'>
                     {/* Navigation */}
-                    <nav className='space-y-2'>
+                    <nav className='space-y-2 sticky top-36'>
                         <button 
                             onClick={() => setActiveSection('profile')} 
                             className={`block text-sm w-full text-left px-3 py-2 rounded ${activeSection === 'profile' ? 'text-green-700 font-semibold' : ' hover:'}`}>
