@@ -73,7 +73,7 @@ export default function Home() {
           {loading && (
             <div className="mt-10 w-full flex items-center justify-center">
               <span className="flex items-center gap-1 text-gray-500">
-                <FiLoader className="animate-spin" /> Loading...
+                <FiLoader className="animate-spin mt-1" /> Loading...
               </span>
             </div>
           )}
@@ -84,7 +84,7 @@ export default function Home() {
                 onClick={handleLoadMore}
                 className="cursor-pointer font-semibold text-sm flex items-center gap-1 text-gray-400 hover:text-black"
               >
-                <FiArrowDown /> Lebih banyak
+                <FiArrowDown className="mt-1" /> Lebih banyak
               </span>
             </div>
           )}

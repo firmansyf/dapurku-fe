@@ -43,9 +43,9 @@ const ProfileModule: FC = () => {
         <div className='text-2xl backdrop-blur-sm font-semibold bg-white/30 p-7 px-20 z-10 border-b-2 sticky top-14'>
             Informasi Pengguna
         </div>
-        <div className='p-[57px] min-h-screen space-y-5'>
+        <div className='px-12 py-5'>
             <div className='flex rounded-md h-[80vh]'>
-                <div className='w-1/5 p-5'>
+                <div className='w-1/5 pl-5 py-14'>
                     {/* Navigation */}
                     <nav className='space-y-2 sticky top-36'>
                         <button 
@@ -70,7 +70,7 @@ const ProfileModule: FC = () => {
                         </button>
                     </nav>
                 </div>
-                <div className='flex-1 ml-4 py-5 inline-block'>
+                <div className='flex-1 ml-4 py-14 h-auto'>
                     {/* Content */}
                     {renderContent()}
                 </div>

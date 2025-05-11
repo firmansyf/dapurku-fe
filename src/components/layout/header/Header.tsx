@@ -99,7 +99,7 @@ const Header: React.FC = () => {
             {state.isAuthenticated && (
               <div className='flex items-center gap-2 h-full py-4'>  
                 <span
-                  onClick={() => router.push('/profile')}
+                  onClick={() => window.location.href = '/profile'}
                   className='text-sm tracking-wide truncate cursor-pointer hover:underline text-[#FFF]'
                 >
                   {state.data?.username}

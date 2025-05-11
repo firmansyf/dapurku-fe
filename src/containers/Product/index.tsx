@@ -48,9 +48,9 @@ const Products: FC<ProductProps> = ({ data }) => {
             </div>
 
             <AddToCart
-                data={dataProduct}
-                openModal={openModalAddToCart}
-                setOpenModal={setOpenModalAddToCart}
+              data={dataProduct}
+              openModal={openModalAddToCart}
+              setOpenModal={setOpenModalAddToCart}
             />
         </>
     )
