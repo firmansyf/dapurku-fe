@@ -23,8 +23,8 @@ const Button: React.FC<ButtonProps> = ({
     'font-medium rounded-lg focus:outline-none focus:ring-1 focus:ring-offset-2 transition duration-300';
 
   const sizeStyles = {
-    sm: 'px-3 py-2 text-sm',
-    md: 'px-6 py-3 text-base',
+    sm: 'px-3 py-1 text-sm',
+    md: 'px-6 py-2 text-base',
     lg: 'px-8 py-4 text-lg',
     xs: 'px-2 py-2 text-xs'
   };

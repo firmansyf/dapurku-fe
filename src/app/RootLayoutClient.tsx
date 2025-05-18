@@ -1,5 +1,10 @@
 'use client'
 
+import 'swiper/css';
+import 'swiper/css/navigation';
+import 'swiper/css/pagination';
+import 'swiper/css/scrollbar';
+
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StateProvider } from "@/context/authContextProvider"
 import { useState, useEffect } from "react"

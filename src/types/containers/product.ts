@@ -11,21 +11,22 @@ export interface AddToCartProps {
     data?: DataProducts
 }
 
-interface Product {
+export interface ProductData {
   id: number
   name: string
   price: string
   image: string;
   description: string
 }
+
 export interface CartItem {
-    id: number
-    register_id: number
-    product_id: number
-    quantity: number
-    createdAt?: string
-    updatedAt?: string
-    product: Product
+  id: number
+  register_id: number
+  product_id: number
+  quantity: number
+  createdAt?: string
+  updatedAt?: string
+  product: ProductData
 }
   
 interface Meta {
@@ -39,4 +40,9 @@ export interface CartResponse {
   message: string
   data: CartItem[]
   meta: Meta
+}
+
+export interface CategoryData {
+  name_category: string
+  description: string
 }
