@@ -12,11 +12,11 @@ export interface AddToCartProps {
 }
 
 export interface ProductData {
-  id: number
-  name: string
-  price: string
-  image: string;
-  description: string
+  id?: number
+  name?: string
+  price?: string
+  image?: string;
+  description?: string
 }
 
 export interface CartItem {

@@ -3,6 +3,7 @@ import { FaRegHeart, FaRegStar } from 'react-icons/fa';
 import { useState } from 'react';
 import Image from 'next/image';
 import { ProductData } from '@/types/containers/product'
+import { currencyFormat } from '@/helpers/commons';
   
 const CardProduct: React.FC<{ product: ProductData }> = ({ product }) => {
     const [isFavorite, setIsFavorite] = useState(false);
@@ -29,14 +30,14 @@ const CardProduct: React.FC<{ product: ProductData }> = ({ product }) => {
       <div className="bg-white w-full max-w-sm rounded-lg shadow-sm overflow-hidden">
         <div className="relative bg-gray-200 h-48 flex items-center justify-center">
           <Image
-            src={product.image}
-            alt={product.name}
+            src={product.image as string}
+            alt={product.name as string}
             className="object-cover"
             fill
           />
         </div>
         <div className="py-4">
-          <h3 className="text-lg font-medium">{product.name}</h3>
+          <h3 className="text-lg font-medium">{product?.name || '-'}</h3>
           <div className="flex items-center text-xs text-gray-600 mt-1">
             <span className="bg-green-100 text-green-700 px-1 py-0.5 rounded mr-2">
               Dapur mba Heni
@@ -53,7 +54,7 @@ const CardProduct: React.FC<{ product: ProductData }> = ({ product }) => {
 
           <div className="flex justify-between items-center mt-3">
             <span className="text-green-500 font-bold">
-              Rp{product.price.toLocaleString()}
+              Rp{currencyFormat(product.price)}
             </span>
             <div className="flex gap-2">
               <button 

@@ -10,14 +10,17 @@ import { PATHS } from '@/helpers/constants'
 import RegisterModule from '@/containers/Register'
 import { useQueriesGetCategory } from '@/api/user/category'
 import { CategoryData } from '@/types/containers/product'
+import SearchResults from '../components/SearchResults'
 
 const Header: React.FC = () => {
   const router = useRouter()
   const pathname = usePathname()
-  const [openLogin, setOpenLogin] = useState(false)
-  const [openLogout, setOpenLogout] = useState(false)
-  const [openRegister, setOpenRegister] = useState(false)
-  const [searchQuery, setSearchQuery] = useState('')
+  const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false)
+  const [openLogin, setOpenLogin] = useState<boolean>(false)
+  const [openLogout, setOpenLogout] = useState<boolean>(false)
+  const [openRegister, setOpenRegister] = useState<boolean>(false)
+  const [searchQuery, setSearchQuery] = useState<string>('')
+
   const { data } = useQueriesGetCategory({ limit: 10 })
   const categories = data?.data ?? []
 
@@ -33,7 +36,14 @@ const Header: React.FC = () => {
 
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault()
-    router.push(searchQuery.trim() ? `/?search=${encodeURIComponent(searchQuery)}` : '/')
+    const trimmed = searchQuery.trim()
+    if (trimmed === '') {
+      router.push('/')
+      setIsSearchOpen(false)
+    } else {
+      router.push(`/?search=${encodeURIComponent(trimmed)}`)
+      setIsSearchOpen(true)
+    }
   }
 
   return (
@@ -133,6 +143,18 @@ const Header: React.FC = () => {
           </div>
         </div>
       </header>
+
+      {isSearchOpen && (
+        <div
+          className={`fixed top-[72px] left-0 w-full z-[9999] bg-white shadow-lg transition-all duration-300 ease-in-out transform ${
+            isSearchOpen ? 'opacity-100 translate-y-0' : 'opacity-0 -translate-y-4 pointer-events-none'
+          }`}
+        >
+        <div className="container max-w-screen-xl mx-auto px-4">
+            <SearchResults setShow={setIsSearchOpen} />
+        </div>
+      </div>
+      )}
 
       {/* Modals */}
       <Login isOpen={openLogin} setIsOpen={setOpenLogin} />

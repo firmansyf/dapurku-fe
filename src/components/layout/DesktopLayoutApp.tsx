@@ -28,7 +28,7 @@ const DesktopAppLayout = ({ children }: DesktopAppLayoutProps) => {
       {shouldShowHeader && <Header />}
       <div id="spacer" className="max-sm:pt-[50px] md:pt-0" />
       <div>{children}</div>
-      <Footer />
+      {shouldShowHeader && <Footer />}
     </>
   );
 };

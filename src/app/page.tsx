@@ -2,7 +2,6 @@
 'use client';
 
 import { useQueriesGetProducts } from "@/api/user/product"
-import { useSearchParams } from "next/navigation";
 import { Banner } from "@/components/commons";
 import ProductPopuler from "@/containers/Product/components/ProductPopuler";
 import ProductFlashSale from "@/containers/Product/components/ProductFlashSale";
@@ -10,10 +9,7 @@ import ProductList from "@/containers/Product/components/ProductList";
 
 
 export default function Home() {
-  const searchParams = useSearchParams()
-
-  const search = searchParams.get('search')
-  const params = { page: 1, limit: 12, keyword: search }
+  const params = { page: 1, limit: 12 }
   const { data } = useQueriesGetProducts(params) ?? { data: [], error: null }
 
 
