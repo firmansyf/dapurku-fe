@@ -66,20 +66,20 @@ const Content: FC = () => {
   return (
       <>
       <div className="container mx-auto p-6">
-            <Datatable 
-              page={page} 
-              total={total}
-              limit={limit} 
-              setPage={setPage}
-              data={data}
-              onSearch={handleSearch}
-              totalPages={totalPages}
-              isActions={true}
-              onDelete={onDelete}
-              onDetail={onDetail}
-              onAdd={onAdd}
-              onEdit={onEdit}
-            />
+          <Datatable 
+            page={page} 
+            total={total}
+            limit={limit} 
+            setPage={setPage}
+            data={data}
+            onSearch={handleSearch}
+            totalPages={totalPages}
+            isActions={true}
+            onDelete={onDelete}
+            onDetail={onDetail}
+            onAdd={onAdd}
+            onEdit={onEdit}
+          />
         </div>
       
         <AddEditForm

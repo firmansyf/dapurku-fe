@@ -26,10 +26,11 @@ const Login: FC<LoginProps> = ({ isOpen, setIsOpen }) => {
       const res = await loginEndpoint.mutateAsync(params)
       setIsOpen(false)
       setTimeout(() => {
-        // window.location.reload()
         toast.success(res.message)
         afterSuccessLogin(res.token, res.user)
       }, 300)
+      setTimeout(() => window.location.reload(), 2000)
+
     } catch (err) {
         const { data } = err as { data: { error: string } }
         toast.error(data.error)

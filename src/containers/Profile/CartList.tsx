@@ -5,6 +5,7 @@ import { CartItem } from '@/types/containers/product'
 import { currencyFormat } from '@/helpers/commons'
 import { Button } from '@/components/commons'
 
+
 export default function CartList({ cart } : any) {
 
     return (
@@ -13,7 +14,7 @@ export default function CartList({ cart } : any) {
 
             <div className='space-y-4 pb-4'>
                 {cart && cart.map((item : CartItem, i: number) => (
-                    <div key={i} className='w-full border-2 p-5 rounded-xl bg-[#EEE]'>
+                    <div key={i} className='w-full flex border-2 p-5 rounded-xl bg-[#EEE]'>
                         <div className='flex gap-3 h-full'>
                             <div>
                                 <img src={item.product?.image} className='w-24 rounded-md' alt={item.product.name} />
@@ -31,6 +32,11 @@ export default function CartList({ cart } : any) {
                                 </div>
                             </div>
                         </div>
+
+                        <div className=''>
+                            <div></div>
+                            <Button text='Beli sekarang' size='xs' className='' variant='outline' />
+                        </div> 
                     </div>
                 ))}
             </div>

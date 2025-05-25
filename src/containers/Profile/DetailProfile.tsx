@@ -279,7 +279,7 @@ export default function DetailProfile() {
                             size="sm"
                             type="submit"
                             variant="outline"
-                            className="flex-1 border-2 border-green-500 text-green-600 font-semibold hover:bg-green-500 hover:text-white transition duration-300 mt-10"
+                            className="flex-1 border-2 border-green-500 text-green-600 font-semibold hover:bg-green-500 hover:text-white transition duration-300 mt-10 tracking-wide"
                             text="Simpan Perubahan"
                         />
                     </div>

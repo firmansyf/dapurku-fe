@@ -2,112 +2,179 @@
 'use client';
 
 import { useQueriesGetProducts } from "@/api/user/product"
-import Products from "@/containers/Product"
-import { useState, useEffect, useCallback } from "react"
-import { FiLoader, FiArrowDown } from "react-icons/fi"
-import { useSearchParams } from "next/navigation";
+import { Banner } from "@/components/commons";
+import ProductPopuler from "@/containers/Product/components/ProductPopuler";
+import ProductFlashSale from "@/containers/Product/components/ProductFlashSale";
+import ProductList from "@/containers/Product/components/ProductList";
+
 
 export default function Home() {
-  const searchParams = useSearchParams()
+  const params = { page: 1, limit: 12 }
+  const { data } = useQueriesGetProducts(params) ?? { data: [], error: null }
 
-  const [limit] = useState<number>(12)
-  const [page, setPage] = useState<number>(1)
-  const [products, setProducts] = useState<any[]>([])
-  const [loading, setLoading] = useState<boolean>(false)
-  const [hasMore, setHasMore] = useState<boolean>(true)
-
-  const search = searchParams.get('search')
-
-  const params = { page, limit: 12, keyword: search }
-  const { data, error } = useQueriesGetProducts(params) ?? { data: [], error: null }
-
-  const fetchProducts = useCallback(() => {
-    setLoading(true)
-
-    setTimeout(() => {
-      try {
-        if (data && Array.isArray(data.data) && data.data.length > 0) {
-
-          setProducts((prevProducts) => {
-            const newProducts = data.data.filter(
-              (newProduct : any) => !prevProducts.some((prevProduct) => prevProduct.id === newProduct.id)
-            )
-            return [...prevProducts, ...newProducts]
-          })
-          setHasMore(data.data.length === limit)
-        } else {
-          setHasMore(false)
-        }
-      } catch (error) {
-        console.error("Failed to fetch products:", error)
-      } finally {
-        setLoading(false);
-      }
-    }, 1000)
-  }, [limit, data])
-
-  useEffect(() => {
-    setProducts([])
-    setPage(1)
-  }, [search])
-
-  useEffect(() => {
-    if (data) {
-      fetchProducts()
-    }
-  }, [fetchProducts, data])
-
-  const handleLoadMore = () => {
-    if (!loading && hasMore) {
-      setPage((prevPage) => prevPage + 1)
-    }
-  }
-
-  const noProductsMessage = search && !loading && !hasMore && !products.length ? "Maaf, produk tidak ada" : "Maaf, tidak ada lagi product";
 
   return (
-    <div className="p-20">
-      <section className="my-5">
-        <Products data={products} />
+    <main className="pt-10 pb-10">
+      <div className="w-full mx-auto">
+        {/* Optional: Bisa taruh Banner di sini */}
+        <div className="max-w-screen-xl mx-auto px-4">
+          <Banner
+            title="Diskon Besar Hari Ini!"
+            description="Dapatkan promo spesial untuk produk dapur terbaik."
+            buttonText="Lihat Sekarang"
+            imageUrl="https://placehold.co/600x400.png"
+            href="/produk"
+          />
+        </div>
 
-          {loading && (
-            <div className="mt-10 w-full flex items-center justify-center">
-              <span className="flex items-center gap-1 text-gray-500">
-                <FiLoader className="animate-spin" /> Loading...
-              </span>
-            </div>
-          )}
-
-          {hasMore && !loading && (
-            <div className="mt-10 w-full flex items-center justify-center">
-              <span
-                onClick={handleLoadMore}
-                className="cursor-pointer font-semibold text-sm flex items-center gap-1 text-gray-400 hover:text-black"
-              >
-                <FiArrowDown /> Lebih banyak
-              </span>
-            </div>
-          )}
-
-          {!hasMore && !loading && !search && (
-            <div className="mt-10 w-full flex items-center justify-center text-gray-400">
-              Maaf, tidak ada lagi product
-            </div>
-          )}
-
-          {!hasMore && !loading && search && !products.length && (
-            <div className="mt-10 w-full flex items-center justify-center text-gray-400">
-              {noProductsMessage}
-            </div>
-          )}
-
-        {error && (
-          <div className="mt-10 w-full flex items-center justify-center text-red-500">
-            Gagal memuat produk.
+        {/* Produk */}
+        <section className="my-8">
+         <div className="max-w-screen-xl mx-auto px-4">
+            <ProductFlashSale
+              products={[
+                {
+                  id: 1,
+                  name: 'Keripik pisang',
+                  store: 'Oleh-oleh Lampung',
+                  price: 10000,
+                  rating: 5,
+                  reviews: 210,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Enak buat ngemil, yuk beli sekarang'
+                },
+                {
+                  id: 2,
+                  name: 'Bolu kukus',
+                  store: 'Kue Mbok Darmi',
+                  price: 5000,
+                  rating: 4,
+                  reviews: 84,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Ada yang manis dan enak, buruan beli'
+                },
+                {
+                  id: 3,
+                  name: 'Gorengan (Karoket)',
+                  store: 'Gorengan Pak Rohim',
+                  price: 5000,
+                  rating: 3.5,
+                  reviews: 56,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Masih hangat, dan siap antar nich'
+                },
+                {
+                  id: 4,
+                  name: 'Bakwan Jagung',
+                  store: 'Warung Bu Siti',
+                  price: 7500,
+                  rating: 4.5,
+                  reviews: 120,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Renyah dan gurih, favorit semua orang'
+                },
+                {
+                  id: 4,
+                  name: 'Bakwan Jagung',
+                  store: 'Warung Bu Siti',
+                  price: 7500,
+                  rating: 4.5,
+                  reviews: 120,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Renyah dan gurih, favorit semua orang'
+                },
+                {
+                  id: 4,
+                  name: 'Bakwan Jagung',
+                  store: 'Warung Bu Siti',
+                  price: 7500,
+                  rating: 4.5,
+                  reviews: 120,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Renyah dan gurih, favorit semua orang'
+                }
+              ]} 
+            />
           </div>
-        )}
 
-      </section>
-    </div>
-  );
+          <div className='my-10' />
+
+          <div className="max-w-screen-xl mx-auto px-4">
+            <ProductPopuler
+              products={[
+                {
+                  id: 1,
+                  name: 'Keripik pisang',
+                  store: 'Oleh-oleh Lampung',
+                  price: 10000,
+                  rating: 5,
+                  reviews: 210,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Enak buat ngemil, yuk beli sekarang'
+                },
+                {
+                  id: 2,
+                  name: 'Bolu kukus',
+                  store: 'Kue Mbok Darmi',
+                  price: 5000,
+                  rating: 4,
+                  reviews: 84,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Ada yang manis dan enak, buruan beli'
+                },
+                {
+                  id: 3,
+                  name: 'Gorengan (Karoket)',
+                  store: 'Gorengan Pak Rohim',
+                  price: 5000,
+                  rating: 3.5,
+                  reviews: 56,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Masih hangat, dan siap antar nich'
+                },
+                {
+                  id: 4,
+                  name: 'Bakwan Jagung',
+                  store: 'Warung Bu Siti',
+                  price: 7500,
+                  rating: 4.5,
+                  reviews: 120,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Renyah dan gurih, favorit semua orang'
+                },
+                {
+                  id: 4,
+                  name: 'Bakwan Jagung',
+                  store: 'Warung Bu Siti',
+                  price: 7500,
+                  rating: 4.5,
+                  reviews: 120,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Renyah dan gurih, favorit semua orang'
+                },
+                {
+                  id: 4,
+                  name: 'Bakwan Jagung',
+                  store: 'Warung Bu Siti',
+                  price: 7500,
+                  rating: 4.5,
+                  reviews: 120,
+                  image: 'https://placehold.co/600x400.png',
+                  description: 'Renyah dan gurih, favorit semua orang'
+                }
+              ]} 
+            />
+          </div>
+          
+          <div className='my-10' />
+
+          <div className="max-w-screen-xl mx-auto px-4">
+            <ProductList
+              products={data?.data} 
+            />
+         </div>
+          
+        </section>
+      </div>
+    </main>
+  )
 }

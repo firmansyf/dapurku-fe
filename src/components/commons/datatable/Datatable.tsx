@@ -69,7 +69,7 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
               <tr className="border-b bg-gray-100">
                 {/* Filter kolom untuk menghilangkan ID dan gambar */}
                 {Object.keys(data[0] || {})
-                  .filter((key) => key !== 'id' && key !== 'image')
+                  .filter((key) => key !== 'id' && key !== 'image' && key !== 'category_id')
                   .map((key) => (
                     <th key={key} className="py-2 px-4 text-left capitalize text-sm font-semibold text-gray-700">
                       {key}
@@ -84,14 +84,26 @@ const Datatable = <T extends Record<string, string | number | boolean>>({
                 <tr key={idx} className="border-b">
                   {/* Filter nilai untuk menghilangkan ID dan gambar */}
                   {Object.entries(row)
-                    .filter(([key]) => key !== 'id' && key !== 'image')
+                    .filter(([key]) => key !== 'id' && key !== 'image' && key !== 'category_id')
+                    .map(([key, value], i) => {
+                      let displayValue: string | number | boolean = ''
 
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    .map(([_, value], i) => (
-                      <td key={i} className="py-2 px-4 text-sm text-gray-600 ">
-                        <p className='truncate w-[200px]'>{value}</p>
-                      </td>
-                    ))}
+                      if (typeof value === 'object' && value !== null) {
+                        if (key === 'category' && 'name_category' in value) {
+                          displayValue = value.name_category
+                        } else {
+                          displayValue = '[Object]'
+                        }
+                      } else {
+                        displayValue = value
+                      }
+
+                      return (
+                        <td key={i} className="py-2 px-4 text-sm text-gray-600">
+                          <p className="truncate w-[200px]">{displayValue}</p>
+                        </td>
+                      )
+                    })}
                   
                   {isActions && (
                     <td className="py-2 px-4 text-sm text-gray-600">
