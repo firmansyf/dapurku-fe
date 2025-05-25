@@ -65,7 +65,7 @@ const AllProduct: FC = () => {
         : "Maaf, tidak ada lagi product"
     
     return (
-      <div className='pt-36 pb-10'>
+      <div className='pt-5 pb-10'>
         <div className='max-w-screen-xl mx-auto px-4'>
         <div className="flex justify-between items-center mb-4">
            <h2 className="text-xl font-bold border-b-2 border-green-500 pb-1">List Produk</h2>

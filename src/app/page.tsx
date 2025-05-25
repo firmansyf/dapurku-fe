@@ -14,7 +14,7 @@ export default function Home() {
 
 
   return (
-    <main className="pt-36 pb-10">
+    <main className="pt-10 pb-10">
       <div className="w-full mx-auto">
         {/* Optional: Bisa taruh Banner di sini */}
         <div className="max-w-screen-xl mx-auto px-4">
