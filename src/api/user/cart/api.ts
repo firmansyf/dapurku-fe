@@ -22,3 +22,9 @@ export function postCart(params: PostCart) {
         throwErrorObject: true,
       }) 
 }
+
+export function delCart(id: number) {
+    return apiResolver(() => axios.delete(`/cart/${id}`), {
+        throwErrorObject: true,
+      }) 
+}

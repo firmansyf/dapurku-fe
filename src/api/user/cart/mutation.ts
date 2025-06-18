@@ -1,6 +1,6 @@
 import { useMutation } from '@tanstack/react-query'
 import { PostCart } from './types'
-import { postCart } from './api'
+import { postCart, delCart } from './api'
 
 export const useAddCartMutation = (reloadData = 0) => {
     return useMutation({
@@ -8,3 +8,10 @@ export const useAddCartMutation = (reloadData = 0) => {
       mutationFn: (params: PostCart) => postCart(params),
     })
   }
+
+export const useDelCartMutation = () => {
+  return useMutation({
+    mutationKey: ['delete-cart'],
+    mutationFn: (id: number) => delCart(id),
+  })
+}

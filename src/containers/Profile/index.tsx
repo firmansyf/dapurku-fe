@@ -4,14 +4,13 @@ import { FC, useState } from 'react'
 import DetailProfile from './DetailProfile'
 import CartList from './CartList'
 import { useQueriesGetCart } from '@/api/user/cart'
-import { FiAlertCircle } from 'react-icons/fi'
 
 const ProfileModule: FC = () => {
   const [activeSection, setActiveSection] = useState<'profile' | 'order' | 'cart' | 'settings'>('profile')
   const [page] = useState<number>(1)
   const params = { page }
 
-  const { data: cartData } = useQueriesGetCart(params) ?? {}
+  const { data: cartData, refetch } = useQueriesGetCart(params) ?? {}
   const cart = cartData?.data ?? []
 
   const renderContent = () => {
@@ -33,7 +32,7 @@ const ProfileModule: FC = () => {
           </div>
         )
       case 'cart':
-        return <CartList cart={cart} />
+        return <CartList cart={cart} refetch={refetch} />
       default:
         return null
     }
@@ -48,11 +47,10 @@ const ProfileModule: FC = () => {
           : 'text-gray-700 hover:bg-gray-100'
       }`}
     >
-      <span className='flex items-center gap-2'>
+      <span className='flex items-center tracking-wide gap-2'>
         {label}
         {key === 'cart' && cart?.length > 0 && (
           <span className='flex items-center gap-1 text-red-500'>
-            <FiAlertCircle />
             <span className='text-xs text-red-600'>({cart.length})</span>
           </span>
         )}
