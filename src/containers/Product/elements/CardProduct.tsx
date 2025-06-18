@@ -1,11 +1,17 @@
-import { FaHeart, FaShoppingCart, FaStar } from 'react-icons/fa';
-import { FaRegHeart, FaRegStar } from 'react-icons/fa';
+import { FaHeart, FaShoppingCart, FaStar, FaRegHeart, FaRegStar} from 'react-icons/fa';
+import { BiCartAlt } from "react-icons/bi";
 import { useState } from 'react';
 import Image from 'next/image';
-import { ProductData } from '@/types/containers/product'
+import { ProductCardProps } from '@/types/containers/product'
 import { currencyFormat } from '@/helpers/commons';
+import { Spinner } from '@/components/commons';
   
-const CardProduct: React.FC<{ product: ProductData }> = ({ product }) => {
+const CardProduct: React.FC<ProductCardProps> = ({
+  product,
+  wishlist = false,
+  handleAddToCart,
+  loadingSpinner
+}) => {
     const [isFavorite, setIsFavorite] = useState(false);
     
     const renderStars = (rating: number) => {
@@ -57,18 +63,33 @@ const CardProduct: React.FC<{ product: ProductData }> = ({ product }) => {
               Rp{currencyFormat(product.price)}
             </span>
             <div className="flex gap-2">
-              <button 
-                onClick={() => setIsFavorite(!isFavorite)}
-                className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center"
+              {wishlist && (
+                <button 
+                  onClick={() => setIsFavorite(!isFavorite)}
+                  className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center"
+                >
+                  {isFavorite ? (
+                    <FaHeart className="text-green-500" />
+                  ) : (
+                    <FaRegHeart className="text-green-500" />
+                  )}
+                </button>
+              )}
+
+              <button
+                onClick={() => handleAddToCart?.(product)}
+                className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center relative overflow-hidden group"
               >
-                {isFavorite ? (
-                  <FaHeart className="text-green-500" />
-                ) : (
-                  <FaRegHeart className="text-green-500" />
+                {loadingSpinner === product.id ? (
+                  <span className='p-2'>
+                    <Spinner size={40} colorClass="border-blue-500" /> 
+                  </span>
+                ): (
+                    <>
+                      <BiCartAlt className="text-green-600 text-lg transition-opacity duration-200 group-hover:opacity-0" />
+                      <FaShoppingCart className="text-green-500 absolute transition-opacity duration-200 opacity-0 group-hover:opacity-100" />
+                    </>
                 )}
-              </button>
-              <button className="w-8 h-8 rounded-full bg-green-50 flex items-center justify-center">
-                <FaShoppingCart className="text-green-500" />
               </button>
             </div>
           </div>

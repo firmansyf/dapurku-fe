@@ -19,6 +19,7 @@ export interface ProductData {
   description?: string
 }
 
+
 export interface CartItem {
   id: number
   register_id: number
@@ -45,4 +46,11 @@ export interface CartResponse {
 export interface CategoryData {
   name_category: string
   description: string
+}
+
+export interface ProductCardProps {
+  product: ProductData,
+  wishlist?: boolean
+  handleAddToCart?: (item: ProductData) => void
+  loadingSpinner?: number
 }
