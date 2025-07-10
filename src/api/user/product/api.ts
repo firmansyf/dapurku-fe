@@ -8,7 +8,7 @@ const axios = getCustomAxios({
 
 
 export function getProducts(param: ProductParams) {
-    const params = { page : param.page ?? 1, limit: param?.limit, search: param.keyword }
+    const params = { page : param.page ?? 1, limit: param?.limit, search: param.keyword, category_name: param.category_name }
     return apiResolver(() => axios.get('/v1/products', { params }), {
         throwErrorObject: true,
       }) 

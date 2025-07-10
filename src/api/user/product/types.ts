@@ -4,4 +4,5 @@ export type ProductParams = {
     page: number
     totalPages?: number
     total?: number
+    category_name?: string
 }

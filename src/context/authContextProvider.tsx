@@ -61,7 +61,6 @@ export const StateProvider: React.FC<StateProviderProps> = ({ children }) => {
 
       const res = await getProfile()
       if (res.data) {
-        localStorage.setItem('profileInfo', JSON.stringify(res.data));
         dispatch({ type: 'INFO_PROFILE', payload: res.data })
       }
     } catch (error) {

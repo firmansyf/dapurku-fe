@@ -5,16 +5,19 @@ import { Login } from '@/containers/Login'
 import { useGlobalState } from '@/context/authContextProvider'
 import { FiLogOut } from 'react-icons/fi'
 import Logout from '@/containers/Logout'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import RegisterModule from '@/containers/Register'
 import { useQueriesGetCategory } from '@/api/user/category'
 import { CategoryData } from '@/types/containers/product'
 import SearchResults from '../components/SearchResults'
 import { BiCartAlt } from "react-icons/bi";
 import { useQueriesGetCart } from '@/api/user/cart'
+import { PATHS } from '@/helpers/constants'
 
 const Header: React.FC = () => {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const currentCategory = searchParams.get('category')
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false)
   const [openLogin, setOpenLogin] = useState<boolean>(false)
   const [openLogout, setOpenLogout] = useState<boolean>(false)
@@ -45,6 +48,21 @@ const Header: React.FC = () => {
       router.push(`/?search=${encodeURIComponent(trimmed)}`)
       setIsSearchOpen(true)
     }
+  }
+
+  const handleClickCategory = (
+    e: React.MouseEvent<HTMLDivElement>,
+    val: CategoryData
+  ) => {
+    e.preventDefault()
+  
+    if (!val?.name_category) {
+      router.push('/')
+      return
+    }
+  
+    const categoryParam = encodeURIComponent(val.name_category)
+    router.push(`${PATHS.product}/?category=${categoryParam}`)
   }
 
   return (
@@ -145,14 +163,25 @@ const Header: React.FC = () => {
         <div className="container max-w-screen-xl mx-auto px-4 my-3">
           <div className="flex gap-3 flex-wrap py-1 bg-white/10 rounded-md overflow-x-auto">
             {categories && 
-              categories?.map((item : CategoryData, i: number) => (
-              <div
-                key={i}
-                className="px-4 py-2 rounded-full text-sm cursor-pointer whitespace-nowrap text-white hover:bg-white/20 transition"
-              >
-                {item.name_category || ''}
-              </div>
-            ))}
+              categories?.map((item: CategoryData, i: number) => {
+                
+                const isActive = currentCategory === item.name_category
+                return (
+                  <div
+                    key={i}
+                    onClick={(e) => handleClickCategory(e, item)}  
+                    className={`px-4 py-2 rounded-full text-sm cursor-pointer whitespace-nowrap transition
+                      ${isActive
+                        ? 'bg-white/30 text-green-100 font-bold'
+                        : 'text-white hover:bg-white/20'
+                      }
+                    `}
+                  >
+                    {item.name_category || ''}
+                  </div>
+                )
+              }
+            )}
           </div>
         </div>
       </header>
