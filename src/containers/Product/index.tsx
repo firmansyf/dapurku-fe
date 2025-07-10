@@ -9,6 +9,7 @@ import { FiLoader, FiArrowDown } from "react-icons/fi"
 const AllProduct: FC = () => {
     const searchParams = useSearchParams()
     const search = searchParams.get('search')
+    const category = searchParams.get('category')
 
     const [limit] = useState<number>(12)
     const [page, setPage] = useState<number>(1)
@@ -16,7 +17,7 @@ const AllProduct: FC = () => {
     const [loading, setLoading] = useState<boolean>(false)
     const [hasMore, setHasMore] = useState<boolean>(true)
 
-    const params = { page, limit: 12, keyword: search }
+    const params = { page, limit: 12, keyword: search, category_name: category }
     const { data, error } = useQueriesGetProducts(params) 
 
     const fetchProducts = useCallback(() => {
@@ -46,7 +47,7 @@ const AllProduct: FC = () => {
     useEffect(() => {
         setProducts([])
         setPage(1)
-      }, [search])
+      }, [search, category])
     
       useEffect(() => {
         if (data) {
@@ -58,7 +59,9 @@ const AllProduct: FC = () => {
         if (!loading && hasMore) {
           setPage((prevPage) => prevPage + 1)
         }
-      }
+  }
+  
+  console.log('data :', data)
     
       const noProductsMessage = search && !loading && !hasMore && !products.length
         ? "Maaf, produk tidak ada"
