@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useReducer, useContext, ReactNode, Dispatch, useEffect } from 'react'
-import { initialState, stateReducer, State, Action } from '@/stores'
+import { initialState, stateReducer, State, Action } from '@/stores/useStore'
 import { deleteCookie } from 'cookies-next'
 // import { User } from '@/types/admin/userManagement'
 import { getProfile } from '@/api/auth'
