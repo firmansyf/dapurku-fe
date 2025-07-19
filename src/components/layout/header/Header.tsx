@@ -13,6 +13,7 @@ import SearchResults from '../components/SearchResults'
 import { BiCartAlt } from "react-icons/bi";
 import { useQueriesGetCart } from '@/api/user/cart'
 import { PATHS } from '@/helpers/constants'
+import Link from 'next/link'
 
 const Header: React.FC = () => {
   const router = useRouter()
@@ -110,7 +111,7 @@ const Header: React.FC = () => {
   
             {state.isAuthenticated ? (
               <div className="flex items-center gap-x-3 py-4 text-white">
-                <div className="relative">
+                <Link href={PATHS.cart} className="relative">
                   {/* Icon Cart */}
                   <BiCartAlt className="text-2xl " />
 
@@ -120,10 +121,10 @@ const Header: React.FC = () => {
                       {cart.length}
                     </span>
                   )}
-                </div>
+                </Link>
 
                 <span
-                  onClick={() => router.push('/profile')}
+                  onClick={() => router.push(PATHS.profile)}
                   className="text-sm ml-2 text-green-600 font-semibold tracking-wide w-16 truncate bg-green-200 p-1 rounded-lg cursor-pointer hover:underline"
                 >
                   {state.data?.username}
